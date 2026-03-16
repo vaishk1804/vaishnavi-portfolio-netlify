@@ -1,5 +1,6 @@
 import {
   FiArrowRight,
+  FiAward,
   FiCode,
   FiCpu,
   FiDatabase,
@@ -15,19 +16,31 @@ import {
 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 
-const featuredSkills = [
-  'React',
-  'Angular',
-  'TypeScript',
-  'Python',
-  'Django',
-  'FastAPI',
-  'PostgreSQL',
-  'BigQuery',
-  'Docker',
-  'GCP',
-  'TensorFlow',
-  'PyTorch',
+const achievementBadges = [
+  'Full-Stack Engineering',
+  'Backend APIs',
+  'ML / NLP',
+  'Healthcare Tech',
+  'Sustainability Analytics',
+]
+
+const skillGroups = [
+  {
+    title: 'Frontend',
+    skills: ['React', 'Angular', 'TypeScript', 'Tailwind CSS'],
+  },
+  {
+    title: 'Backend',
+    skills: ['Python', 'Django', 'FastAPI', 'REST APIs'],
+  },
+  {
+    title: 'Data / Cloud',
+    skills: ['PostgreSQL', 'SQL Server', 'BigQuery', 'Docker', 'GCP'],
+  },
+  {
+    title: 'ML / AI',
+    skills: ['TensorFlow', 'PyTorch', 'ClinicalBERT', 'KeyBERT'],
+  },
 ]
 
 const interests = [
@@ -70,7 +83,8 @@ function Home() {
         <div className="container hero-grid">
           <div className="hero-copy">
             <p className="eyebrow">MS in Computer Science • UMass Amherst • GPA 4.0</p>
-
+<br/>
+<br/>
             <h1>
               Building reliable web apps, APIs, and data products with a modern
               full-stack toolkit.
@@ -79,9 +93,18 @@ function Home() {
             <p className="lead">
               I’m Vaishnavi Kashyap, a software engineer with experience across
               full-stack development, backend APIs, cloud data workflows, and
-              machine learning projects. I enjoy building useful systems that are
+              machine learning projects. </p><p className='lead'>I enjoy building useful systems that are
               practical, scalable, and easy to work with.
             </p>
+<br/>
+            <div className="achievement-row">
+              {achievementBadges.map((badge) => (
+                <span key={badge} className="achievement-badge">
+                  <FiAward />
+                  {badge}
+                </span>
+              ))}
+            </div>
 
             <div className="hero-meta">
               <span>
@@ -91,7 +114,7 @@ function Home() {
                 <FiMail /> vaishnavikashyap1804@gmail.com
               </a>
             </div>
-
+<br/>
             <div className="hero-actions">
               <Link className="btn btn-primary" to="/projects">
                 View Projects <FiArrowRight />
@@ -106,7 +129,6 @@ function Home() {
                 <FiDownload /> Resume
               </a>
             </div>
-
             <div className="social-links">
               <a
                 href="https://github.com/vaishk1804"
@@ -136,7 +158,7 @@ function Home() {
           </div>
 
           <div className="hero-card">
-            <div className="card floating-card highlight-card">
+            {/* <div className="card floating-card highlight-card">
               <div className="mini-badge">Leveling up in</div>
               <h3>Full-Stack + Backend + Data</h3>
               <ul className="feature-list">
@@ -145,21 +167,28 @@ function Home() {
                 <li>SQL and cloud pipelines</li>
                 <li>ML-powered products</li>
               </ul>
-            </div>
+            </div> */}
 
             <div className="card skills-hero-card">
-  <div className="mini-badge">Main skills</div>
-  <h3>Tech I use most</h3>
+              <div className="mini-badge">Core toolkit</div>
+              <h3>Skills by category</h3>
 
-  <div className="skills-chip-grid">
-    {featuredSkills.map((skill) => (
-      <span key={skill} className="skill-chip gamified-chip">
-        <FiCode />
-        {skill}
-      </span>
-    ))}
-  </div>
-</div>
+              <div className="skill-groups">
+                {skillGroups.map((group) => (
+                  <div key={group.title} className="skill-group-card">
+                    <h4>{group.title}</h4>
+                    <div className="skills-chip-grid">
+                      {group.skills.map((skill) => (
+                        <span key={skill} className="skill-chip gamified-chip">
+                          <FiCode />
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -193,13 +222,12 @@ function Home() {
             </div>
 
             <div className="about-list card">
-              <h3>Core Stack Snapshot</h3>
+              <h3>Levelling up in</h3>
               <ul>
-                <li>Frontend: React, Angular, TypeScript, Tailwind CSS</li>
-                <li>Backend: Python, Django, FastAPI, REST APIs</li>
-                <li>Data: PostgreSQL, SQL Server, BigQuery</li>
-                <li>Cloud & Tools: GCP, Docker, Git/GitHub, Postman</li>
-                <li>ML: TensorFlow, PyTorch, transformer-based NLP</li>
+                <li>Web applications</li>
+                <li>Scalable APIs</li>
+                <li>SQL and cloud pipelines</li>
+                <li>ML-powered products</li>
               </ul>
             </div>
           </div>

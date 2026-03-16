@@ -1,8 +1,11 @@
+import { FiBriefcase, FiCloud, FiBookOpen } from 'react-icons/fi'
+
 const experience = [
   {
     title: 'Software Engineer',
     org: 'Saint Gobain – INDEC',
     duration: 'Nov 2023 – Aug 2024',
+    icon: <FiBriefcase />,
     points: [
       'Built production features using React, Angular, TypeScript, and SQL-backed systems.',
       'Worked on carbon emissions tracking for 300+ employees.',
@@ -14,6 +17,7 @@ const experience = [
     title: 'Data Science Intern',
     org: 'CloudSufi',
     duration: 'Jun 2022 – Aug 2022',
+    icon: <FiCloud />,
     points: [
       'Built cloud data workflows on GCP using Cloud Storage and BigQuery.',
       'Processed 1M+ daily records for sustainability analytics and reporting.',
@@ -25,6 +29,7 @@ const experience = [
     title: 'MS in Computer Science',
     org: 'University of Massachusetts Amherst',
     duration: 'Expected May 2026',
+    icon: <FiBookOpen />,
     points: [
       'GPA: 4.0/4.0',
       'Relevant coursework: Neural Networks, Network Security, Information Retrieval, Software Engineering, Data Science, Statistics.',
@@ -49,10 +54,15 @@ function Experience() {
           {experience.map((item) => (
             <article key={`${item.title}-${item.org}`} className="card experience-card">
               <div className="experience-top">
-                <div>
-                  <h3>{item.title}</h3>
-                  <p className="muted">{item.org}</p>
+                <div className="experience-heading">
+                  <div className="experience-icon">{item.icon}</div>
+
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p className="muted">{item.org}</p>
+                  </div>
                 </div>
+
                 <span className="pill">{item.duration}</span>
               </div>
 
