@@ -7,10 +7,10 @@ const experience = [
     duration: 'Nov 2023 – Aug 2024',
     icon: <FiBriefcase />,
     points: [
-      'Built production features using React, Angular, TypeScript, and SQL-backed systems.',
-      'Worked on carbon emissions tracking for 300+ employees.',
-      'Supported digitization of factory audit workflows across 5+ sites.',
-      'Contributed to assembly planning, debugging, testing, documentation, and production support.',
+      'Built production features across React, Angular, TypeScript, and SQL-backed systems for internal business workflows.',
+      'Worked on carbon emissions tracking for 300+ employees and contributed to sustainability-focused reporting tools.',
+      'Supported digitization of factory audit workflows across 5+ sites, improving structure and visibility in operational processes.',
+      'Contributed to assembly planning, debugging, testing, documentation, and production support across multiple applications.',
     ],
   },
   {
@@ -19,10 +19,10 @@ const experience = [
     duration: 'Jun 2022 – Aug 2022',
     icon: <FiCloud />,
     points: [
-      'Built cloud data workflows on GCP using Cloud Storage and BigQuery.',
-      'Processed 1M+ daily records for sustainability analytics and reporting.',
-      'Worked on forecasting using Vertex AI and BigQuery ARIMA.',
-      'Delivered dashboards, KPI reporting, and validation checks for business use cases.',
+      'Built cloud data workflows on GCP using Cloud Storage and BigQuery for sustainability analytics and reporting.',
+      'Processed 1M+ daily records and supported dashboarding, KPI reporting, and validation-oriented analytics tasks.',
+      'Worked on forecasting workflows using Vertex AI and BigQuery ARIMA for data-driven planning use cases.',
+      'Gained hands-on experience in cloud data engineering, analytics delivery, and business-facing ML applications.',
     ],
   },
   {
@@ -31,9 +31,9 @@ const experience = [
     duration: 'Expected May 2026',
     icon: <FiBookOpen />,
     points: [
-      'GPA: 4.0/4.0',
-      'Relevant coursework: Neural Networks, Network Security, Information Retrieval, Software Engineering, Data Science, Statistics.',
-      'Built projects spanning backend engineering, healthcare applications, NLP, and analytics.',
+      'GPA: 4.0/4.0 with coursework spanning Neural Networks, Network Security, Information Retrieval, Software Engineering, Data Science, and Statistics.',
+      'Built projects across backend engineering, healthcare applications, NLP, remote sensing, analytics, and full-stack development.',
+      'Used graduate coursework as a foundation for applied product-building, experimentation, and systems thinking.',
     ],
   },
 ]
@@ -44,9 +44,9 @@ function Experience() {
       <div className="container">
         <div className="section-title">
           <p className="eyebrow">Experience</p>
-          <h2>Industry and academic experience</h2>
+          <h2>Industry &amp; academic background</h2>
           <p className="section-subtitle">
-            Full-stack engineering, cloud data work, and applied machine learning.
+            Full-stack engineering, cloud data work, and applied machine learning across real-world domains.
           </p>
         </div>
 
@@ -56,13 +56,11 @@ function Experience() {
               <div className="experience-top">
                 <div className="experience-heading">
                   <div className="experience-icon">{item.icon}</div>
-
                   <div>
                     <h3>{item.title}</h3>
                     <p className="muted">{item.org}</p>
                   </div>
                 </div>
-
                 <span className="pill">{item.duration}</span>
               </div>
 

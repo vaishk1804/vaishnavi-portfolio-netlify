@@ -1,116 +1,144 @@
 import { FiExternalLink } from 'react-icons/fi'
+import { useState } from 'react'
 
-const fullStackProjects = [
+const allProjects = [
   {
     title: 'AirWatch',
-    tag: 'Backend • Data Engineering • APIs',
+    tag: 'Backend · Data Engineering · APIs',
+    categories: ['full-stack', 'data'],
     description:
-      'Built a production-style backend using FastAPI and PostgreSQL with SQLAlchemy, Alembic, Celery, and Redis for async processing. Containerized the application with Docker for reproducible deployment.',
-    stack: [
-      'Python',
-      'FastAPI',
-      'PostgreSQL',
-      'SQLAlchemy',
-      'Alembic',
-      'Celery',
-      'Redis',
-      'Docker',
-      'Render',
+      'Production-style backend platform for environmental data workflows built with FastAPI, PostgreSQL, SQLAlchemy/Alembic, Celery, and Redis — Docker-deployed with async task processing.',
+    outcomes: [
+      'Modular backend architecture with async task processing via Celery + Redis',
+      'Production tooling: Alembic migrations, containerized services, env-based config',
+      'Demonstrates backend engineering depth beyond notebook-based work',
     ],
+    stack: ['Python', 'FastAPI', 'PostgreSQL', 'SQLAlchemy', 'Alembic', 'Celery', 'Redis', 'Docker'],
     link: 'https://github.com/vaishk1804/airwatch',
   },
   {
     title: 'Healthcare Management System',
-    tag: 'Full-Stack • Healthcare • Web App',
+    tag: 'Full-Stack · Healthcare · Web App',
+    categories: ['full-stack', 'healthcare'],
     description:
-      'Built a healthcare appointment and records platform using React, Django, and PostgreSQL with secure authentication, role-based access, patient records, appointment booking, and risk-assessment workflows.',
-    stack: [
-      'React',
-      'Django',
-      'PostgreSQL',
-      'OAuth',
-      'REST APIs',
-      'JavaScript',
-      'Python',
+      'Full healthcare appointment and records platform built with React, Django REST Framework, and PostgreSQL — featuring Google OAuth, patient records, booking flows, and role-aware UX.',
+    outcomes: [
+      'End-to-end user workflows across frontend, backend, and database layers',
+      'Google OAuth integration with JWT-based secure access patterns',
+      'Product-minded full-stack development in a real-world healthcare domain',
     ],
+    stack: ['React', 'Django', 'DRF', 'PostgreSQL', 'Google OAuth', 'REST APIs', 'Python'],
     link: 'https://github.com/vaishk1804/Apollo-healthcare',
   },
   {
     title: 'SEC Filings Copilot',
-    tag: 'AI Product • Search • Full-Stack',
+    tag: 'AI Product · Search · Full-Stack',
+    categories: ['full-stack', 'ml'],
     description:
-      'Developed an AI-oriented filings exploration app with separate backend, frontend, and infrastructure layers. Designed as a copilot-style system for exploring financial filings and structured document workflows.',
-    stack: ['Python', 'TypeScript', 'Docker', 'Frontend', 'Backend', 'Infra'],
+      'AI-oriented filings exploration app with FastAPI backend, Next.js frontend, and Docker infrastructure — a copilot-style system for structured financial document workflows.',
+    outcomes: [
+      'Product UX thinking with clean backend and infrastructure separation',
+      'AI-assisted document interaction for a practical finance use case',
+      'Expands portfolio breadth across full-stack and AI-product design',
+    ],
+    stack: ['Python', 'FastAPI', 'Next.js', 'TypeScript', 'Docker'],
     link: 'https://github.com/vaishk1804/sec-filings-copilot',
   },
-]
-
-const mlProjects = [
   {
     title: 'Medical Transcription Classification Using LLMs',
-    tag: 'Machine Learning • NLP • Healthcare AI',
+    tag: 'NLP · Healthcare AI · Transformers',
+    categories: ['ml', 'nlp', 'healthcare'],
     description:
-      'Built a healthcare NLP classification pipeline using ClinicalBERT, ALBERT, T5, and GPT-Neo. Improved minority-class representation by about 30% and increased classification accuracy by about 15% through iterative experimentation.',
-    stack: [
-      'Python',
-      'ClinicalBERT',
-      'ALBERT',
-      'T5',
-      'GPT-Neo',
-      'TensorFlow',
-      'PyTorch',
+      'Healthcare NLP classification pipeline using ClinicalBERT, ALBERT, T5, and GPT-Neo to improve label quality and performance on medical transcription data.',
+    outcomes: [
+      'Improved minority-class representation by ~30% through augmentation',
+      'Improved overall classification accuracy by ~15% through model tuning',
+      'Compared multiple transformer-based approaches in a healthcare NLP setting',
     ],
+    stack: ['Python', 'ClinicalBERT', 'ALBERT', 'T5', 'GPT-Neo', 'TensorFlow', 'PyTorch'],
     link: 'https://github.com/vaishk1804/LLM-based_Medical_Transcription_Classification',
   },
   {
-    title: 'Urban and Tall Vegetation Classification with SAR Data',
-    tag: 'Computer Vision • Remote Sensing • IGARSS 2022',
+    title: 'Urban & Tall Vegetation Classification with SAR',
+    tag: 'Computer Vision · Remote Sensing · IGARSS 2022',
+    categories: ['ml', 'cv'],
     description:
-      'Built a CNN-based land-cover classification pipeline using SAR imagery, Keras, OpenCV, and Rasterio. Improved overall classification accuracy from 66% to 77% on 500+ SAR images and presented the work at IGARSS 2022.',
-    stack: ['Python', 'Keras', 'OpenCV', 'Rasterio', 'CNNs', 'Remote Sensing'],
+      'CNN-based land-cover classification pipeline using SAR imagery, Keras, OpenCV, and Rasterio. Presented at IGARSS 2022 — accuracy improved from 72.5% to 79.3% using interferometric coherence.',
+    outcomes: [
+      'Overall accuracy improved from 72.5% → 79.3% with coherence features',
+      'Urban and tall vegetation class accuracy improved by 15%–25%',
+      'Accepted and presented at IEEE IGARSS 2022',
+    ],
+    stack: ['Python', 'Keras', 'OpenCV', 'Rasterio', 'CNNs', 'SNAP', 'Sentinel-1 SAR'],
     link: 'https://github.com/vaishk1804/Image_Classification_using_Vegetation_Data',
   },
   {
     title: 'Healthcare Topic Modeling',
-    tag: 'NLP • Topic Modeling • Healthcare Analytics',
+    tag: 'NLP · Topic Modeling · Analytics',
+    categories: ['ml', 'nlp', 'healthcare'],
     description:
-      'Designed a literature-mining NLP pipeline using LDA, KeyBERT, and TF-IDF to turn healthcare research papers into interpretable topic clusters. Analyzed Healthcare 4.0 trends across a broad paper corpus and compared themes across cardiology, oncology, orthopedics, and health records.',
-    stack: [
-      'Python',
-      'LDA',
-      'KeyBERT',
-      'TF-IDF',
-      'pandas',
-      'scikit-learn',
-      'NLTK',
-      'spaCy',
+      'Literature-mining NLP pipeline using LDA, KeyBERT, and TF-IDF to turn healthcare research papers into interpretable topic clusters across Healthcare 4.0 domains.',
+    outcomes: [
+      'Analyzed Healthcare 4.0 trends across a broad research corpus',
+      'Compared themes across cardiology, oncology, orthopedics, and health records',
+      'Converted unstructured research text into domain-level topic insights',
     ],
+    stack: ['Python', 'LDA', 'KeyBERT', 'TF-IDF', 'scikit-learn', 'NLTK', 'spaCy'],
     link: 'https://github.com/vaishk1804/Healthcare_Topic_Modelling',
   },
   {
     title: 'Earnings Fraud Detection',
-    tag: 'Machine Learning • Finance • Classification',
+    tag: 'Machine Learning · Finance · Classification',
+    categories: ['ml', 'finance'],
     description:
-      'Built a fraud-detection modeling workflow to classify potential earnings manipulation signals from financial data. Explored feature-driven classification approaches and evaluation workflows for finance-focused prediction tasks.',
+      'Fraud-detection workflow to classify earnings manipulation signals from structured financial data using interpretable feature-driven classification.',
+    outcomes: [
+      'Applied classification workflows to a finance-focused risk problem',
+      'Feature-driven modeling with interpretable evaluation outcomes',
+      'Expands portfolio in tabular ML and business analytics',
+    ],
     stack: ['Python', 'Pandas', 'scikit-learn', 'Jupyter', 'Classification'],
     link: 'https://github.com/vaishk1804/Earnings-fraud-detection',
   },
   {
     title: 'Five Tickers Time Series Modeling',
-    tag: 'Time Series • Forecasting • Finance',
+    tag: 'Time Series · Forecasting · Finance',
+    categories: ['ml', 'finance'],
     description:
-      'Built time-series modeling workflows on five stock tickers to analyze patterns, trends, and forecasting behavior across financial market data. Used notebook-based experimentation for comparative modeling and evaluation.',
+      'Time-series modeling workflows across five stock tickers studying trends, behavior, and forecasting patterns in financial market data.',
+    outcomes: [
+      'Compared patterns across multiple financial time series',
+      'Built forecasting-oriented notebook workflows for financial analysis',
+      'Adds time-series breadth to the overall ML portfolio',
+    ],
     stack: ['Python', 'Pandas', 'Time Series', 'Forecasting', 'Jupyter'],
     link: 'https://github.com/vaishk1804/Fivetickers-Time-series-modeling',
   },
   {
     title: 'Bank Binary Classification',
-    tag: 'Machine Learning • Classification • Banking',
+    tag: 'Machine Learning · Classification · Banking',
+    categories: ['ml', 'finance'],
     description:
-      'Built a binary classification workflow for a banking-focused prediction problem using notebook-based model experimentation, preprocessing, and evaluation. Focused on structured tabular data and interpretable classification performance.',
+      'Binary classification workflow for a banking prediction problem using structured tabular data, preprocessing pipelines, and model evaluation best practices.',
+    outcomes: [
+      'End-to-end classification workflow on tabular business data',
+      'Focused on interpretable performance and preprocessing quality',
+      'Covers practical supervised learning in a financial domain',
+    ],
     stack: ['Python', 'Pandas', 'scikit-learn', 'Classification', 'Jupyter'],
     link: 'https://github.com/vaishk1804/Bank_Binary_Classification',
   },
+]
+
+const filters = [
+  { key: 'all', label: 'All Projects' },
+  { key: 'full-stack', label: 'Full-Stack / Backend' },
+  { key: 'ml', label: 'ML / AI' },
+  { key: 'nlp', label: 'NLP' },
+  { key: 'cv', label: 'Computer Vision' },
+  { key: 'healthcare', label: 'Healthcare' },
+  { key: 'finance', label: 'Finance' },
+  { key: 'data', label: 'Data Engineering' },
 ]
 
 function ProjectCard({ project }) {
@@ -120,98 +148,77 @@ function ProjectCard({ project }) {
         <span className="pill">{project.tag}</span>
         <h3>{project.title}</h3>
       </div>
-
       <p>{project.description}</p>
-
+      <div className="project-outcomes">
+        <h4>Key outcomes</h4>
+        <ul>
+          {project.outcomes.map((point) => (
+            <li key={point}>{point}</li>
+          ))}
+        </ul>
+      </div>
       <div className="stack-list">
         {project.stack.map((item) => (
-          <span key={item} className="stack-pill">
-            {item}
-          </span>
+          <span key={item} className="stack-pill">{item}</span>
         ))}
       </div>
-
       <div className="project-actions">
         <a href={project.link} target="_blank" rel="noreferrer">
-          View Project <FiExternalLink />
+          View on GitHub <FiExternalLink />
         </a>
       </div>
     </article>
   )
 }
 
-function scrollToSection(sectionId) {
-  const section = document.getElementById(sectionId)
-  if (section) {
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-}
-
 function Projects() {
+  const [active, setActive] = useState('all')
+
+  const filtered = active === 'all'
+    ? allProjects
+    : allProjects.filter((p) => p.categories.includes(active))
+
   return (
     <section className="section">
       <div className="container">
         <div className="section-title">
-          <div className="projects-title-row">
-            
-
-            <div className="project-jump-buttons">
-              <button
-                type="button"
-                className="project-jump-pill"
-                onClick={() => scrollToSection('software-projects')}
-              >
-                Software / Full-Stack
-              </button>
-
-              <button
-                type="button"
-                className="project-jump-pill"
-                onClick={() => scrollToSection('ml-projects')}
-              >
-                ML / AI
-              </button>
-            </div>
-          </div>
-
+          <p className="eyebrow">Projects</p>
+          <h2>Selected work across product engineering &amp; ML</h2>
           <p className="section-subtitle">
-            My portfolio spans product-oriented web applications, backend systems,
-            healthcare and sustainability tools, and applied ML projects in NLP,
-            computer vision, classification, and forecasting.
+            Full-stack applications, backend systems, cloud and SQL workflows, healthcare and
+            sustainability products, and ML projects spanning NLP, classification, forecasting,
+            and remote sensing.
           </p>
         </div>
 
-        <div id="software-projects" className="project-section-block">
-          <div className="project-section-header">
-            <h3>Full-Stack / Product / Backend Projects</h3>
-            <p>
-              Projects focused on applications, APIs, architecture, and
-              production-style engineering.
-            </p>
-          </div>
-
-          <div className="project-grid">
-            {fullStackProjects.map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
-          </div>
+        {/* Filter tabs */}
+        <div className="filter-bar">
+          {filters.map((f) => (
+            <button
+              key={f.key}
+              type="button"
+              className={`filter-pill${active === f.key ? ' filter-pill--active' : ''}`}
+              onClick={() => setActive(f.key)}
+            >
+              {f.label}
+              {active === f.key && (
+                <span className="filter-count">{filtered.length}</span>
+              )}
+            </button>
+          ))}
         </div>
 
-        <div id="ml-projects" className="project-section-block">
-          <div className="project-section-header">
-            <h3>ML / AI / Analytics Projects</h3>
-            <p>
-              Projects focused on modeling, topic extraction, classification,
-              forecasting, computer vision, and healthcare or finance analytics.
-            </p>
-          </div>
-
-          <div className="project-grid">
-            {mlProjects.map((project) => (
-              <ProjectCard key={project.title} project={project} />
-            ))}
-          </div>
+        <div className="project-grid" style={{ marginTop: '2rem' }}>
+          {filtered.map((project) => (
+            <ProjectCard key={project.title} project={project} />
+          ))}
         </div>
+
+        {filtered.length === 0 && (
+          <p style={{ color: 'var(--text-muted)', textAlign: 'center', padding: '3rem 0' }}>
+            No projects in this category yet.
+          </p>
+        )}
       </div>
     </section>
   )
