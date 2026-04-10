@@ -56,7 +56,7 @@ function Contact() {
             </div>
 
             <div style={{ marginBottom: '1.4rem' }}>
-              <span className="availability-dot">Open to opportunities · May 2026</span>
+              <span className="availability-dot">Open to opportunities · July 2026</span>
             </div>
 
             <p className="contact-text">

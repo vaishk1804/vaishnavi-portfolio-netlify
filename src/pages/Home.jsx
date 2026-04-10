@@ -154,7 +154,7 @@ function Home() {
             </p>
 
             <div style={{ marginTop: '1rem' }}>
-              <span className="availability-dot">Available for new grad roles · May 2026</span>
+              <span className="availability-dot">Available for new grad roles · July 2026</span>
             </div>
 
             <div className="hero-meta">
