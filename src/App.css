@@ -229,6 +229,18 @@ strong { font-weight: 600; }
   margin-bottom: 1.5rem;
 }
 .hero-accent { color: var(--accent); }
+
+.hero-identity {
+  font-size: 1.02rem;
+  color: var(--accent);
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 500px;
+  margin-bottom: 0.75rem;
+  font-family: 'Syne', sans-serif;
+  letter-spacing: -0.01em;
+}
+
 .hero-lead {
   font-size: 1.03rem;
   color: var(--text-soft);
@@ -273,6 +285,24 @@ strong { font-weight: 600; }
   white-space: nowrap;
 }
 .btn-ghost:hover { border-color: var(--accent); background: var(--accent-dim); transform: translateY(-2px); }
+
+.hero-focus {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.4rem;
+}
+.focus-chip {
+  font-size: 0.75rem;
+  font-family: 'DM Mono', monospace;
+  color: var(--text-soft);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-mid);
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
 .hero-socials {
   display: flex;
   gap: 1.4rem;
@@ -294,18 +324,19 @@ strong { font-weight: 600; }
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 1.6rem 1.8rem;
+  padding: 1.4rem 1.6rem;
   backdrop-filter: blur(12px);
   box-shadow: var(--shadow);
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1.1rem;
   transition: border-color 0.3s;
+  min-width: 0;
 }
 .hcard-photo:hover { border-color: var(--border-mid); }
 .hero-photo-lg {
-  width: 72px;
-  height: 72px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   object-fit: cover;
   object-position: top;
@@ -314,18 +345,20 @@ strong { font-weight: 600; }
 }
 .hero-photo-name {
   font-family: 'Syne', sans-serif;
-  font-size: 1rem;
+  font-size: 0.98rem;
   font-weight: 700;
   color: var(--text);
   letter-spacing: -0.01em;
-  line-height: 1.25;
-  margin-bottom: 0.2rem;
+  line-height: 1.2;
+  margin-bottom: 0.22rem;
+  white-space: nowrap;
 }
 .hero-photo-role {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-family: 'DM Mono', monospace;
   color: var(--accent);
   letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 .hero-role-dim { color: var(--text-muted); }
 
@@ -665,13 +698,7 @@ strong { font-weight: 600; }
   z-index: 1;
 }
 .pf-desc {
-  font-size: 0.88rem;
-  color: var(--text-soft);
-  line-height: 1.7;
-  flex: 1;
-  margin-bottom: 1.1rem;
-  position: relative;
-  z-index: 1;
+  display: none;
 }
 .pf-metrics {
   display: flex;
@@ -937,6 +964,58 @@ strong { font-weight: 600; }
 }
 @media (max-width: 860px) { .domains-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .domains-grid { grid-template-columns: 1fr; } }
+
+
+/* ── Project card fields ─────────────────────────────────────────── */
+.pf-summary {
+  font-size: 0.86rem;
+  color: var(--text-soft);
+  line-height: 1.68;
+  margin-bottom: 0.9rem;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+.pf-decision-block {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  padding: 0.55rem 0.8rem;
+  background: rgba(0,194,183,0.05);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 5px 5px 0;
+  position: relative;
+  z-index: 1;
+  font-style: italic;
+}
+.pf-decision-label {
+  font-style: normal;
+  color: var(--accent);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+}
+.pc-problem {
+  font-size: 0.82rem;
+  color: var(--text-soft);
+  line-height: 1.62;
+  flex: 1;
+  margin-bottom: 0.7rem;
+}
+
+.contact-auth {
+  font-size: 0.78rem;
+  font-family: 'DM Mono', monospace;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 0.85rem;
+  background: var(--accent-dim);
+  border: 1px solid rgba(0,194,183,0.15);
+  border-radius: 6px;
+  display: inline-block;
+  letter-spacing: 0.02em;
+}
 
 /* ── Footer ──────────────────────────────────────────────────────── */
 .footer {

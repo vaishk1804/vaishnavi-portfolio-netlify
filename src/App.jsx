@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const NAV_LINKS = ['About', 'Impact', 'Domains', 'Experience', 'Projects', 'Contact']
+const NAV_LINKS = ['About', 'Experience', 'Projects', 'Impact', 'Contact']
 const METRICS = [
   { value: '300+', label: 'Users in production' },
   { value: '1M+', label: 'Daily data points' },
@@ -48,12 +48,11 @@ const DOMAINS = [
 ]
 
 const SKILLS = [
-  { area: 'Languages', items: ['Python', 'JavaScript', 'TypeScript', 'SQL', 'Java'] },
-  { area: 'Frontend', items: ['React', 'Angular', 'Next.js', 'Tailwind CSS', 'D3.js', 'Chart.js'] },
-  { area: 'Backend', items: ['FastAPI', 'Django', 'Node.js', 'DRF', 'Spring Boot', '.NET', 'REST APIs'] },
-  { area: 'Data & Cloud', items: ['PostgreSQL', 'BigQuery', 'Redis', 'Celery', 'Docker', 'AWS', 'GCP', 'Vertex AI'] },
-  { area: 'ML / AI', items: ['Keras', 'TensorFlow', 'PyTorch', 'ClinicalBERT', 'T5', 'ALBERT', 'GPT-Neo', 'scikit-learn'] },
-  { area: 'Tools', items: ['Git', 'GitHub Actions', 'SQLAlchemy', 'Alembic', 'AppSheet', 'Docker', 'JIRA', 'Postman'] },
+  { area: 'Languages', items: ['Python', 'JavaScript', 'TypeScript', 'SQL', 'Java', 'C#', 'Bash'] },
+  { area: 'Frontend', items: ['React', 'Angular', 'Next.js', 'Tailwind CSS', 'D3.js', 'Chart.js', 'Three.js'] },
+  { area: 'Backend', items: ['FastAPI', 'Django', 'Node.js', 'DRF', 'SQLAlchemy', 'Alembic', 'REST APIs'] },
+  { area: 'Data & Cloud', items: ['PostgreSQL', 'BigQuery', 'Redis', 'Celery', 'Docker', 'AWS', 'GCP', 'boto3', 'Qdrant'] },
+  { area: 'ML / AI', items: ['Keras', 'TensorFlow', 'ClinicalBERT', 'T5', 'ALBERT', 'GPT-Neo', 'Pandas', 'NumPy', 'ARIMA'] },
 ]
 
 const EXPERIENCE = [
@@ -87,58 +86,81 @@ const EXPERIENCE = [
 
 const PROJECTS = [
   {
-    title: 'Medical Transcription Classification',
+    title: 'Medical Transcription Classifier',
     tag: 'NLP · Healthcare AI · LLMs',
     featured: true,
-    description: 'Used ClinicalBERT, ALBERT, T5, and GPT-Neo to generate synthetic training data on the MTTranscripts dataset, improving minority class representation by 30%. CNN and CNN+BiLSTM classifiers improved accuracy by 15% over baseline.',
+    problem: 'Medical transcription datasets are severely class-imbalanced — Surgery has 1,103 samples, Hospice has 6. SMOTE generates statistically plausible but clinically meaningless text, poisoning healthcare classifiers.',
+    solution: 'Tiered LLM augmentation: ClinicalBERT/ALBERT for masked language modeling, T5 for paraphrase, GPT-Neo for autoregressive generation. Sampling rules preserved clinical meaning by constraining generation to domain vocabulary.',
+    decision: 'Three augmentation methods instead of one — each covers a different failure mode: MLM fills semantic gaps, paraphrase adds syntactic variety, autoregressive generation handles classes with under 10 samples.',
     stack: ['ClinicalBERT', 'ALBERT', 'T5', 'GPT-Neo', 'CNN', 'BiLSTM', 'Keras'],
-    metrics: ['+30% class balance', '+15% accuracy'],
+    metrics: ['94.33% accuracy', '96.00 F1', 'vs 51.94% SMOTE baseline', '+30% minority class'],
     link: 'https://github.com/vaishk1804/LLM-based_Medical_Transcription_Classification',
   },
   {
     title: 'SAR Land-Cover Classification',
     tag: 'Computer Vision · IEEE IGARSS 2022',
     featured: true,
-    description: 'CNN pipeline for 6-class land-cover classification over 200 ROIs/class from Sentinel-1 SAR imagery. Interferometric coherence improved overall accuracy by 11% and urban/vegetation class accuracy by 15–25%. Published at IEEE IGARSS 2022.',
+    problem: 'Standard optical imagery is blocked by cloud cover. SAR data penetrates both but existing CNN pipelines ignored interferometric coherence — a signal that directly encodes surface structure.',
+    solution: 'CNN pipeline for 6-class land-cover classification over Sentinel-1 SAR imagery across 200 ROIs/class. Integrated interferometric coherence as an additional feature channel alongside backscatter intensity.',
+    decision: 'Added coherence as a separate input channel rather than fusing it post-classification — early fusion lets the CNN learn cross-channel spatial relationships that late fusion discards.',
     stack: ['Keras', 'TensorFlow', 'OpenCV', 'Rasterio', 'SNAP', 'Sentinel-1'],
-    metrics: ['+11% accuracy', 'IEEE published', '200 ROIs/class'],
+    metrics: ['+11% overall accuracy', '+15–25% urban/vegetation', 'IEEE IGARSS 2022'],
     link: 'https://www.researchgate.net/publication/363942838',
   },
   {
     title: 'AirWatch',
-    tag: 'Backend · Data Engineering',
+    tag: 'Full-Stack · Data Engineering · APIs',
     featured: false,
-    description: 'Full-stack air quality platform consuming live OpenAQ API feeds. FastAPI + PostgreSQL backend with Alembic migrations. Async task processing via Celery + Redis. All services containerized with Docker.',
-    stack: ['FastAPI', 'React', 'TypeScript', 'PostgreSQL', 'Celery', 'Redis', 'Docker'],
-    metrics: ['Live OpenAQ data', 'Fully containerized'],
+    problem: 'Synchronous fetch pipelines break whenever the external API is slow — making real-time air quality dashboards fragile and unreliable for end users.',
+    solution: 'Decoupled ingestion from the request cycle using Celery + Redis async task processing. FastAPI serves pre-ingested data from a structured PostgreSQL time-series store. All services containerized with Docker.',
+    decision: 'Celery over a background thread — thread-based ingestion dies silently on server restart. Celery tasks are durable, retryable, and observable.',
+    stack: ['FastAPI', 'React', 'TypeScript', 'PostgreSQL', 'SQLAlchemy', 'Alembic', 'Celery', 'Redis', 'Docker'],
+    metrics: ['Live OpenAQ feeds', 'Async ingestion', 'Fully containerized'],
     link: 'https://github.com/vaishk1804/airwatch',
   },
   {
-    title: 'Healthcare Management System',
-    tag: 'Full-Stack · Healthcare',
+    title: 'SEC Filings Copilot',
+    tag: 'Document AI · RAG · Finance',
     featured: false,
-    description: 'Full appointment and medical records platform with Google OAuth 2.0, role-based access control, and optimized DRF REST APIs handling concurrent booking flows.',
-    stack: ['React', 'Django', 'DRF', 'PostgreSQL', 'Google OAuth 2.0'],
+    problem: 'Analysts reading 10-Ks and 10-Qs spend hours on mechanical extraction. Keyword search fails on dense regulatory language — you need document understanding, not string matching.',
+    solution: 'Retrieval system over SEC filings using Qdrant vector database. Next.js frontend, FastAPI backend. Focused on chunking granularity, retrieval quality, and source grounding.',
+    decision: 'Self-hosted Qdrant over a managed vector DB — local infrastructure forces engagement with chunking, indexing, and recall tradeoffs that a managed API abstracts away.',
+    stack: ['Next.js', 'FastAPI', 'Qdrant', 'Docker Compose', 'Python'],
+    metrics: ['In progress', 'RAG pipeline'],
+    link: 'https://github.com/vaishk1804/sec-filings-copilot',
+  },
+  {
+    title: 'SAV_535 CPU & Cache Simulator',
+    tag: 'Systems · Computer Architecture · Claude Code',
+    featured: false,
+    problem: 'Understanding cache and pipeline interactions requires comparing the same workload across four execution modes — a setup that does not exist in standard simulation tools.',
+    solution: 'CLI and Qt GUI simulator with four modes: no cache/pipeline, cache only, pipeline only, cache + pipeline. Exchange sort and matrix multiplication benchmarks expose stall, squash, and cycle count state per mode.',
+    decision: 'Used Claude Code to reason through mode-specific pipeline behavior while validating correctness manually against benchmark outputs. AI proposes, I verify against ground truth.',
+    stack: ['C++', 'Qt', 'CMake', 'Claude Code'],
+    metrics: ['4 execution modes', 'CLI + Qt GUI'],
+    link: 'https://github.com/vaishk1804/SAV_535',
+  },
+  {
+    title: 'Healthcare Management System',
+    tag: 'Full-Stack · Healthcare · Auth',
+    featured: false,
+    problem: 'Healthcare platforms need concurrent booking, role-based record access, and audit-safe authentication — standard CRUD patterns do not handle clinical workflow constraints.',
+    solution: 'Full appointment and records platform with Google OAuth 2.0, role-based access control, and DRF REST APIs designed for concurrent booking flows.',
+    decision: 'Google OAuth over email/password — reduces credential management risk in a context where account compromise has outsized consequences.',
+    stack: ['React', 'TypeScript', 'Django', 'DRF', 'PostgreSQL', 'Google OAuth 2.0'],
     metrics: ['Role-based access', 'Concurrent booking'],
     link: 'https://github.com/vaishk1804/Apollo-healthcare',
   },
   {
     title: 'Healthcare Topic Modeling',
-    tag: 'NLP · Analytics',
+    tag: 'NLP · Document Processing',
     featured: false,
-    description: 'NLP pipeline using LDA, KeyBERT, and TF-IDF to mine 100+ healthcare research papers into interpretable topic clusters across Healthcare 4.0 domains.',
-    stack: ['Python', 'LDA', 'KeyBERT', 'TF-IDF', 'scikit-learn', 'NLTK'],
-    metrics: ['100+ papers analyzed'],
+    problem: '100+ healthcare research PDFs contain overlapping themes. No tooling existed to surface cross-paper trends without reading everything.',
+    solution: 'Pipeline using PyMuPDF extraction, TF-IDF, LDA topic modeling, and KeyBERT keyword extraction. Validated cluster quality via coherence scoring.',
+    decision: 'LDA over BERTopic — interpretability was the goal. LDA topic-word distributions are human-readable and directly useful for literature review.',
+    stack: ['Python', 'LDA', 'KeyBERT', 'TF-IDF', 'PyMuPDF', 'scikit-learn'],
+    metrics: ['100+ papers', 'Coherence validated'],
     link: 'https://github.com/vaishk1804/Healthcare_Topic_Modelling',
-  },
-  {
-    title: 'Earnings Fraud Detection',
-    tag: 'ML · Finance',
-    featured: false,
-    description: 'Fraud-detection workflow classifying earnings manipulation signals from structured financial data using interpretable, feature-driven classification.',
-    stack: ['Python', 'Pandas', 'scikit-learn'],
-    metrics: [],
-    link: 'https://github.com/vaishk1804/Earnings-fraud-detection',
   },
 ]
 
@@ -192,7 +214,7 @@ function Nav() {
   return (
     <header className={`nav${scrolled ? ' nav--scrolled' : ''}`}>
       <div className="container"><div className="nav-inner">
-        <button className="nav-brand" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Vaishnavi Kashyap</button>
+        <button className="nav-brand" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>VK</button>
         <nav className="nav-links">
           {NAV_LINKS.map(l => (
             <button key={l} className={`nav-link${active === l ? ' active' : ''}`} onClick={() => go(l)}>{l}</button>
@@ -224,21 +246,27 @@ function Hero() {
         <div className="hero-copy">
           <div className="hero-eyebrow">
             <span className="pulse-dot" />
-            Open to new grad roles · July 2026 · MA
+            Open to new grad roles · July 2026 · Amherst, MA
           </div>
           <h1 className="hero-h1">
             I build systems that<br />
             <span className="hero-accent">ship, scale,</span><br />
             and hold up.
           </h1>
+          <p className="hero-identity">
+            Production software that replaces real operational pain — owned end-to-end from schema design through cloud deployment.
+          </p>
           <p className="hero-lead">
-            Pursuing an M.S. in CS at UMass Amherst (GPA 4.0). I've shipped
-            production software to 300+ users across 5 factory sites, processed
-            1M+ daily data points, and published ML research at IEEE.
+            M.S. CS at UMass Amherst (GPA 4.0). Shipped to 300+ users across 5+ factory sites at 99.9% uptime. 1M+ daily data points processed. IEEE-published ML research.
           </p>
           <div className="hero-actions">
             <button className="btn-primary" onClick={() => go('Projects')}>View Projects</button>
             <a className="btn-ghost" href="/resume.pdf" target="_blank" rel="noreferrer">Download Resume ↓</a>
+          </div>
+          <div className="hero-focus">
+            {['Full-Stack SWE', 'Data Engineering', 'ML Engineering'].map(f => (
+              <span key={f} className="focus-chip">{f}</span>
+            ))}
           </div>
           <div className="hero-socials">
             <a href="https://github.com/vaishk1804" target="_blank" rel="noreferrer">GitHub ↗</a>
@@ -249,14 +277,14 @@ function Hero() {
 
         <div className="hero-cards">
           <div className="hcard hcard-photo">
-            <img src="/profile.jpg" alt="Vaishnavi Kashyap" className="hero-photo-lg" />
+            <img src="/profile.jpg" alt="Profile photo" className="hero-photo-lg" />
             <div className="hero-photo-name">Vaishnavi Kashyap</div>
             <div className="hero-photo-role">Full-Stack Engineer <span className="hero-role-dim">· ML depth</span></div>
           </div>
           <div className="hcard hcard-main">
             <div className="hcard-eyebrow">Currently at</div>
             <div className="hcard-title">UMass Amherst</div>
-            <div className="hcard-sub">M.S. Computer Science · GPA 4.0 · May 2026</div>
+            <div className="hcard-sub">M.S. Computer Science · GPA 4.0 · July 2026</div>
             <div className="hcard-rule" />
             <div className="hcard-eyebrow">Published at</div>
             <div className="hcard-pub">
@@ -373,12 +401,13 @@ function ExperienceSection() {
 function ProjectsSection() {
   const [filter, setFilter] = useState('all')
   const catMap = {
-    'Medical Transcription Classification': ['ml', 'nlp'],
+    'Medical Transcription Classifier': ['ml', 'nlp'],
     'SAR Land-Cover Classification': ['ml'],
     'AirWatch': ['fullstack'],
+    'SEC Filings Copilot': ['fullstack', 'ml'],
+    'SAV_535 CPU & Cache Simulator': ['systems'],
     'Healthcare Management System': ['fullstack'],
     'Healthcare Topic Modeling': ['nlp', 'ml'],
-    'Earnings Fraud Detection': ['ml'],
   }
   const visible = filter === 'all' ? PROJECTS : PROJECTS.filter(p => (catMap[p.title] || []).includes(filter))
   const featured = visible.filter(p => p.featured)
@@ -392,7 +421,7 @@ function ProjectsSection() {
           <h2>Projects</h2>
         </div>
         <div className="filter-bar">
-          {[['all', 'All'], ['ml', 'ML / AI'], ['nlp', 'NLP'], ['fullstack', 'Full-Stack']].map(([k, l]) => (
+          {[['all', 'All'], ['ml', 'ML / AI'], ['nlp', 'NLP'], ['fullstack', 'Full-Stack'], ['systems', 'Systems']].map(([k, l]) => (
             <button key={k} className={`filter-btn${filter === k ? ' active' : ''}`} onClick={() => setFilter(k)}>{l}</button>
           ))}
         </div>
@@ -400,9 +429,10 @@ function ProjectsSection() {
           <div className="featured-grid">
             {featured.map(p => (
               <a key={p.title} href={p.link} target="_blank" rel="noreferrer" className="proj-featured">
-<div className="pf-tag">{p.tag}</div>
+                <div className="pf-tag">{p.tag}</div>
                 <h3 className="pf-title">{p.title}</h3>
-                <p className="pf-desc">{p.description}</p>
+                {p.problem && <p className="pf-summary">{p.problem}</p>}
+                {p.decision && <div className="pf-decision-block"><span className="pf-decision-label">Why this approach —</span> {p.decision}</div>}
                 {p.metrics.length > 0 && (
                   <div className="pf-metrics">{p.metrics.map(m => <span key={m} className="pf-metric">{m}</span>)}</div>
                 )}
@@ -418,7 +448,7 @@ function ProjectsSection() {
               <a key={p.title} href={p.link} target="_blank" rel="noreferrer" className="proj-card">
                 <div className="pc-tag">{p.tag}</div>
                 <h3 className="pc-title">{p.title}</h3>
-                <p className="pc-desc">{p.description}</p>
+                {p.problem && <p className="pc-problem">{p.problem}</p>}
                 {p.metrics.length > 0 && (
                   <div className="pc-metrics">{p.metrics.map(m => <span key={m} className="pc-metric">{m}</span>)}</div>
                 )}
@@ -449,10 +479,12 @@ function Contact() {
         <div className="contact-inner">
           <div className="contact-copy">
             <span className="eyebrow">Get in touch</span>
-            <h2>Let's build something.</h2>
+            <h2>Available July 2026.</h2>
             <p className="contact-body">
-              Actively seeking new grad software engineering and ML engineering roles for 2026.
-              Open to full-stack, backend, and applied AI/ML opportunities across the U.S.
+              If you're building something that needs to work at scale and be owned end-to-end — let's talk.
+            </p>
+            <p className="contact-auth">
+              F1 OPT / STEM OPT eligible · Will require H-1B sponsorship for long-term employment
             </p>
             <div className="email-row">
               <span className="email-addr">{EMAIL}</span>
@@ -498,10 +530,9 @@ export default function App() {
       <Nav />
       <main>
         <Hero />
-        <Impact />
-        <Domains />
         <ExperienceSection />
         <ProjectsSection />
+        <Impact />
         <Contact />
       </main>
       <footer className="footer">
