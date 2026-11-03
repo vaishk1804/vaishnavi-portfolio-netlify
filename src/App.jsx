@@ -1,73 +1,51 @@
 import { useState, useEffect } from 'react'
 
 const NAV_LINKS = ['About', 'Experience', 'Projects', 'Impact', 'Contact']
-const METRICS = [
-  { value: '300+', label: 'Users in production' },
-  { value: '1M+', label: 'Daily data points' },
-  { value: '99.9%', label: 'Uptime sustained' },
-  { value: '5+', label: 'Sites digitized' },
-  { value: '90%', label: 'Efficiency gain' },
-  { value: '70%', label: 'Query time cut' },
-  { value: '4.0', label: 'GPA · UMass' },
-  { value: '1', label: 'IEEE publication' },
-  { value: '+30%', label: 'Class balance' },
-  { value: '+15%', label: 'Model accuracy' },
-]
 
-const DOMAINS = [
-  {
-    icon: '⬡',
-    title: 'Full-Stack Engineering',
-    text: 'End-to-end systems across React, Angular, Django, FastAPI, and Node.js — from schema design to deployment, owned in production.',
-  },
-  {
-    icon: '◈',
-    title: 'Data Systems & Analytics',
-    text: 'BigQuery pipelines, PostgreSQL schemas, dashboards, and cloud data workflows processing 1M+ records in real time.',
-  },
-  {
-    icon: '◎',
-    title: 'Machine Learning & NLP',
-    text: 'Transformer-based classification, LLM-driven augmentation, CNNs, ARIMA forecasting — research-grade and applied.',
-  },
-  {
-    icon: '◉',
-    title: 'Sustainability Tech',
-    text: 'Carbon emissions tracking, Scope 1 reporting, geospatial mapping with Earth Engine, and operational KPI forecasting.',
-  },
-  {
-    icon: '⬟',
-    title: 'Healthcare Applications',
-    text: 'Medical transcription classification, appointment systems, records platforms — built across clinical text and workflow domains.',
-  },
-  {
-    icon: '◇',
-    title: 'Backend Infrastructure',
-    text: 'API design, async task processing with Celery + Redis, Dockerized services, CI/CD pipelines, and production-grade reliability.',
-  },
+const METRICS = [
+  { value: '300+', label: 'Users on my carbon platform' },
+  { value: '99.9%', label: 'Uptime sustained' },
+  { value: '5', label: 'Factory sites served' },
+  { value: '~90%', label: 'Efficiency gain (mgmt-assessed)' },
+  { value: '<100ms', label: 'Query time, down from 3–4 s' },
+  { value: '70%', label: 'BigQuery query time cut' },
+  { value: '1M+', label: 'Records modeled · CloudSufi' },
+  { value: '230 RPS', label: 'AirWatch at 0% errors (was 63)' },
+  { value: '4.0', label: 'GPA · UMass M.S. CS' },
+  { value: '1', label: 'IEEE publication' },
 ]
 
 const SKILLS = [
-  { area: 'Languages', items: ['Python', 'JavaScript', 'TypeScript', 'SQL', 'Java', 'C#', 'Bash'] },
-  { area: 'Frontend', items: ['React', 'Angular', 'Next.js', 'Tailwind CSS', 'D3.js', 'Chart.js', 'Three.js'] },
-  { area: 'Backend', items: ['FastAPI', 'Django', 'Node.js', 'DRF', 'SQLAlchemy', 'Alembic', 'REST APIs'] },
-  { area: 'Data & Cloud', items: ['PostgreSQL', 'BigQuery', 'Redis', 'Celery', 'Docker', 'AWS', 'GCP', 'boto3', 'Qdrant'] },
-  { area: 'ML / AI', items: ['Keras', 'TensorFlow', 'ClinicalBERT', 'T5', 'ALBERT', 'GPT-Neo', 'Pandas', 'NumPy', 'ARIMA'] },
+  { area: 'Languages', items: ['Python', 'TypeScript', 'JavaScript', 'C++', 'SQL', 'Bash'] },
+  { area: 'Frontend', items: ['React', 'React Native', 'Expo', 'Angular', 'Three.js', 'Tailwind CSS'] },
+  { area: 'Backend', items: ['FastAPI', 'Django', 'DRF', 'Node.js', 'SQLAlchemy', 'Alembic', 'Celery', 'REST APIs'] },
+  { area: 'Data & Cloud', items: ['PostgreSQL', 'BigQuery', 'Redis', 'Kafka', 'Airflow', 'dbt', 'Docker', 'AWS (EC2, S3, CloudWatch)', 'GCP Vertex AI', 'GitHub Actions'] },
+  { area: 'AI / ML', items: ['Anthropic SDK', 'Tool-using agents', 'RAG (BM25 + dense)', 'Embedding fine-tuning', 'ClinicalBERT', 'ALBERT', 'Keras', 'TensorFlow', 'ARIMA', 'Pandas', 'NumPy'] },
 ]
 
 const EXPERIENCE = [
   {
-    role: 'Software Engineer',
-    company: 'Saint Gobain – INDEC',
-    period: 'Nov 2023 – Aug 2024',
-    location: 'Bangalore, India',
+    role: 'Office & Technology Operations Intern',
+    company: 'Boomerroomers',
+    period: 'Aug 2026 – Present',
+    location: 'Remote',
     points: [
-      'Architected and owned a React + Django + AWS carbon emissions platform end-to-end — ingesting 10–12 metrics per employee across 300+ users, replacing fragmented spreadsheets with real-time sustainability KPIs.',
-      'Led (as primary engineer) a React + Node.js assembly planning system from scratch, digitizing workflows for 100+ workers across 5 factory sites and improving operational efficiency by 90%.',
-      'Built an Angular + Django audit system eliminating ~1-week paper cycles across 5+ manufacturing sites, digitizing 100% of factory audits to near real-time turnaround.',
-      'Designed PostgreSQL schema from scratch; sustained 99.9% uptime across 3+ concurrent projects through query optimization and proactive infrastructure tuning.',
-      'Extended a React + .NET + SQL Server platform with Chart.js and D3.js dashboards, surfacing automobile feature trend insights for business stakeholders.',
-      'Configured GitHub Actions CI/CD pipelines; built a 3D Unity fire drill simulator using real factory floor plans for emergency preparedness.',
+      'Full-stack development on the Boomerroomers mobile app — React Native / Expo frontend and Node.js backend — targeting an iOS launch.',
+      'Ship features through code-reviewed pull requests, working directly with the company founder.',
+    ],
+  },
+  {
+    role: 'Software Engineer',
+    company: 'Saint-Gobain – INDEC',
+    period: 'Nov 2023 – Aug 2024',
+    location: 'Mumbai, India',
+    points: [
+      'One of two engineers delivering three concurrent internal systems for 5 glass-factory sites.',
+      'Proposed and built a carbon emissions platform (React + Django) on my own initiative — tracking water, travel, food, and energy with GHG Protocol factors and Scope 1/3 dashboards for 300+ users at 99.9% uptime.',
+      'Deployed it myself on AWS: EC2 behind Gunicorn, S3 signed-URL report exports, and CloudWatch log streaming with instance-health alerts.',
+      'Added a composite index that cut a slow query from 3–4 s to under 100 ms.',
+      'Built an Angular + Django factory audit system on a state machine in about 6 weeks, replacing week-long paper audits with near real-time turnaround.',
+      'Built an assembly floor planner (React + Node.js + Three.js) used by 100+ workers; management assessed a ~90% efficiency improvement.',
     ],
   },
   {
@@ -76,99 +54,122 @@ const EXPERIENCE = [
     period: 'Jun 2022 – Aug 2022',
     location: 'Remote',
     points: [
-      'Presented ML forecasts and geospatial emission maps directly to the CEO and full ML team — fusing Google Earth Engine data with 1M+ emission records to produce location-specific insights.',
-      'Owned the full ARIMA forecasting pipeline on Vertex AI — data ingestion, training, deployment, and dashboard integration — predicting Scope 1 emission trends across 1M+ records.',
-      'Authored BigQuery SQL views with multi-table joins and rolling 2-week windows, surfacing 1M+ daily data points in real time and cutting analyst query time by 70%.',
-      'Built 6+ live AppSheet dashboards connected directly to BigQuery, enabling non-technical ops teams to self-serve Scope 1 emissions data.',
+      'Built an ARIMA emissions forecasting pipeline on GCP Vertex AI over 1M+ records with weather covariates, writing forecasts to BigQuery.',
+      'Wrote BigQuery SQL views with multi-table joins and rolling windows, cutting query time by 70%.',
+      'Connected AppSheet dashboards to the BigQuery forecasts so non-technical ops teams could self-serve emissions data.',
+      'Presented forecasting results directly to the CEO.',
     ],
   },
 ]
 
+// link: '' renders the card without a link. Fill these in once the repos are public and current.
 const PROJECTS = [
   {
-    title: 'Medical Transcription Classifier',
-    tag: 'NLP · Healthcare AI · LLMs',
+    title: 'LexRAG',
+    tag: 'RAG · Retrieval · Legal NLP',
     featured: true,
-    problem: 'Medical transcription datasets are severely class-imbalanced — Surgery has 1,103 samples, Hospice has 6. SMOTE generates statistically plausible but clinically meaningless text, poisoning healthcare classifiers.',
-    solution: 'Tiered LLM augmentation: ClinicalBERT/ALBERT for masked language modeling, T5 for paraphrase, GPT-Neo for autoregressive generation. Sampling rules preserved clinical meaning by constraining generation to domain vocabulary.',
-    decision: 'Three augmentation methods instead of one — each covers a different failure mode: MLM fills semantic gaps, paraphrase adds syntactic variety, autoregressive generation handles classes with under 10 samples.',
-    stack: ['ClinicalBERT', 'ALBERT', 'T5', 'GPT-Neo', 'CNN', 'BiLSTM', 'Keras'],
-    metrics: ['94.33% accuracy', '96.00 F1', 'vs 51.94% SMOTE baseline', '+30% minority class'],
-    link: 'https://github.com/vaishk1804/LLM-based_Medical_Transcription_Classification',
+    problem: 'Contracts bury the clauses that matter in long, formulaic text. Keyword search misses paraphrased clauses; embedding search alone misses exact legal terms.',
+    solution: 'Retrieval system over 510 CUAD contracts combining BM25 and dense retrieval with Reciprocal Rank Fusion, plus a fine-tuned embedding model.',
+    decision: 'Hybrid retrieval — BM25 and dense results fused with RRF — then fine-tuned the embedding model, lifting top-1 retrieval from 3.5% to 8.0%.',
+    stack: ['Python', 'BM25', 'Dense retrieval', 'RRF', 'Embedding fine-tuning'],
+    metrics: ['510 CUAD contracts', 'Top-1 retrieval 3.5% → 8.0%'],
+    link: '', // TODO: LexRAG repo URL
   },
   {
-    title: 'SAR Land-Cover Classification',
-    tag: 'Computer Vision · IEEE IGARSS 2022',
+    title: 'PitWall F1 Agent',
+    tag: 'LLM Agent · Tool Use · Evals',
     featured: true,
-    problem: 'Standard optical imagery is blocked by cloud cover. SAR data penetrates both but existing CNN pipelines ignored interferometric coherence — a signal that directly encodes surface structure.',
-    solution: 'CNN pipeline for 6-class land-cover classification over Sentinel-1 SAR imagery across 200 ROIs/class. Integrated interferometric coherence as an additional feature channel alongside backscatter intensity.',
-    decision: 'Added coherence as a separate input channel rather than fusing it post-classification — early fusion lets the CNN learn cross-channel spatial relationships that late fusion discards.',
-    stack: ['Keras', 'TensorFlow', 'OpenCV', 'Rasterio', 'SNAP', 'Sentinel-1'],
-    metrics: ['+11% overall accuracy', '+15–25% urban/vegetation', 'IEEE IGARSS 2022'],
-    link: 'https://www.researchgate.net/publication/363942838',
+    problem: 'LLM agents answering factual questions can state wrong numbers with full confidence — and without evals you cannot tell whether a fix helped.',
+    solution: 'Formula 1 agent built on the Anthropic SDK with 8 tools and confidence guardrails, backed by an eval harness and test suite.',
+    decision: 'Built the eval harness (10 cases across 9 categories) alongside the agent, so guardrail changes are tested rather than guessed. The confidence guardrails reduce hallucination risk.',
+    stack: ['Anthropic SDK', 'Tool use', 'Guardrails', 'Eval harness'],
+    metrics: ['8 tools', '10-case eval harness', '66 tests'],
+    link: '', // TODO: push harness + tests, then add repo URL
   },
   {
     title: 'AirWatch',
     tag: 'Full-Stack · Data Engineering · APIs',
-    featured: false,
-    problem: 'Synchronous fetch pipelines break whenever the external API is slow — making real-time air quality dashboards fragile and unreliable for end users.',
-    solution: 'Decoupled ingestion from the request cycle using Celery + Redis async task processing. FastAPI serves pre-ingested data from a structured PostgreSQL time-series store. All services containerized with Docker.',
-    decision: 'Celery over a background thread — thread-based ingestion dies silently on server restart. Celery tasks are durable, retryable, and observable.',
-    stack: ['FastAPI', 'React', 'TypeScript', 'PostgreSQL', 'SQLAlchemy', 'Alembic', 'Celery', 'Redis', 'Docker'],
-    metrics: ['Live OpenAQ feeds', 'Async ingestion', 'Fully containerized'],
+    featured: true,
+    problem: 'Synchronous fetch pipelines break whenever the external API is slow — making real-time air quality dashboards fragile under load.',
+    solution: 'Decoupled ingestion from the request cycle with Celery + Redis. FastAPI serves pre-ingested data from PostgreSQL to a React + TypeScript frontend. Containerized with Docker; GitHub Actions CI runs lint, typecheck, tests, and the Docker build.',
+    decision: 'Celery over a background thread — thread-based ingestion dies silently on restart. Under 100 concurrent clients, throughput went from 63 RPS at 74% errors to 230 RPS at 0% errors.',
+    stack: ['FastAPI', 'React', 'TypeScript', 'PostgreSQL', 'SQLAlchemy', 'Alembic', 'Celery', 'Redis', 'Docker', 'GitHub Actions'],
+    metrics: ['230 RPS · 0% errors', 'p95 736 ms', '100 concurrent clients', '27 tests'],
     link: 'https://github.com/vaishk1804/airwatch',
   },
   {
-    title: 'SEC Filings Copilot',
-    tag: 'Document AI · RAG · Finance',
+    title: 'Stock Market ELT Pipeline',
+    tag: 'Data Engineering · Streaming · ELT',
     featured: false,
-    problem: 'Analysts reading 10-Ks and 10-Qs spend hours on mechanical extraction. Keyword search fails on dense regulatory language — you need document understanding, not string matching.',
-    solution: 'Retrieval system over SEC filings using Qdrant vector database. Next.js frontend, FastAPI backend. Focused on chunking granularity, retrieval quality, and source grounding.',
-    decision: 'Self-hosted Qdrant over a managed vector DB — local infrastructure forces engagement with chunking, indexing, and recall tradeoffs that a managed API abstracts away.',
-    stack: ['Next.js', 'FastAPI', 'Qdrant', 'Docker Compose', 'Python'],
-    metrics: ['In progress', 'RAG pipeline'],
-    link: 'https://github.com/vaishk1804/sec-filings-copilot',
+    problem: 'Market data pipelines fail quietly: one bad fetch or duplicate write corrupts every model downstream.',
+    solution: '16-task Airflow DAG fetching 10 tickers, a validation gate before load, a 10-partition Kafka topic with idempotent writes and a dead-letter queue, and 6 dbt models — across 12 Docker services.',
+    decision: 'Validation gate plus idempotent Kafka writes and a DLQ, so bad or repeated messages are caught instead of silently loaded.',
+    stack: ['Airflow', 'Kafka', 'dbt', 'Docker', 'Python'],
+    metrics: ['16-task DAG', '6 dbt models', '12 services', '25 tests'],
+    link: '', // TODO: push latest code, then add repo URL
   },
   {
-    title: 'SAV_535 CPU & Cache Simulator',
-    tag: 'Systems · Computer Architecture · Claude Code',
+    title: 'Medical Transcription Classifier',
+    tag: 'NLP · Healthcare AI · Data Augmentation',
     featured: false,
-    problem: 'Understanding cache and pipeline interactions requires comparing the same workload across four execution modes — a setup that does not exist in standard simulation tools.',
-    solution: 'CLI and Qt GUI simulator with four modes: no cache/pipeline, cache only, pipeline only, cache + pipeline. Exchange sort and matrix multiplication benchmarks expose stall, squash, and cycle count state per mode.',
+    problem: 'Medical transcription datasets are severely class-imbalanced — Surgery has 1,103 samples, Hospice has 6. SMOTE produces statistically plausible but clinically meaningless text.',
+    solution: 'Team project. My part: language-model augmentation with ClinicalBERT and ALBERT masked language modeling, the SMOTE baseline, and the CNN classifier.',
+    decision: 'Benchmarked against SMOTE as the standard fix for imbalance: 53% accuracy with SMOTE versus 94% with language-model augmentation.',
+    stack: ['ClinicalBERT', 'ALBERT', 'CNN', 'Keras', 'SMOTE'],
+    metrics: ['94% accuracy', '94.89 F1', 'vs 53% with SMOTE'],
+    link: 'https://github.com/vaishk1804/LLM-based_Medical_Transcription_Classification',
+  },
+  {
+    title: 'SAR Land-Cover Classification',
+    tag: 'Computer Vision · Remote Sensing · IEEE IGARSS 2022',
+    featured: false,
+    problem: 'Optical imagery is blocked by cloud cover. SAR penetrates it, but standard CNN pipelines ignored interferometric coherence — a signal that directly encodes surface structure.',
+    solution: 'CNN for 6-class land-cover classification on Sentinel-1 SAR, adding interferometric coherence as an input channel alongside backscatter. Published as "Efficient Use of Interferometric Coherence for Improvement in Classification of Urban and Tall Vegetation with SAR Data."',
+    decision: 'Added coherence as a separate input channel so the CNN learns cross-channel spatial relationships directly.',
+    stack: ['Keras', 'TensorFlow', 'Sentinel-1', 'SNAP'],
+    metrics: ['+11% overall accuracy', '+15–25% urban & tall vegetation', 'IEEE IGARSS 2022'],
+    link: 'https://www.researchgate.net/publication/363942838',
+  },
+  {
+    title: 'SAV_535 RISC CPU Simulator',
+    tag: 'Systems · Computer Architecture · C++',
+    featured: false,
+    problem: 'Seeing how cache and pipeline interact means running the same workload across four execution modes — a setup standard tools do not offer.',
+    solution: 'RISC CPU simulator with a custom ISA (16 registers, 22 instructions plus NOP and HALT), an assembler, a pipeline with RAW stalls and no forwarding, and a memory hierarchy. The same workload runs across four modes, with a GUI for inspecting pipeline and cache state.',
     decision: 'Used Claude Code to reason through mode-specific pipeline behavior while validating correctness manually against benchmark outputs. AI proposes, I verify against ground truth.',
-    stack: ['C++', 'Qt', 'CMake', 'Claude Code'],
-    metrics: ['4 execution modes', 'CLI + Qt GUI'],
+    stack: ['C++17', 'Qt', 'CMake', 'Claude Code'],
+    metrics: ['4 execution modes', '4.4× and 5.6× speedups'],
     link: 'https://github.com/vaishk1804/SAV_535',
-  },
-  {
-    title: 'Healthcare Management System',
-    tag: 'Full-Stack · Healthcare · Auth',
-    featured: false,
-    problem: 'Healthcare platforms need concurrent booking, role-based record access, and audit-safe authentication — standard CRUD patterns do not handle clinical workflow constraints.',
-    solution: 'Full appointment and records platform with Google OAuth 2.0, role-based access control, and DRF REST APIs designed for concurrent booking flows.',
-    decision: 'Google OAuth over email/password — reduces credential management risk in a context where account compromise has outsized consequences.',
-    stack: ['React', 'TypeScript', 'Django', 'DRF', 'PostgreSQL', 'Google OAuth 2.0'],
-    metrics: ['Role-based access', 'Concurrent booking'],
-    link: 'https://github.com/vaishk1804/Apollo-healthcare',
   },
   {
     title: 'Healthcare Topic Modeling',
     tag: 'NLP · Document Processing',
     featured: false,
-    problem: '100+ healthcare research PDFs contain overlapping themes. No tooling existed to surface cross-paper trends without reading everything.',
-    solution: 'Pipeline using PyMuPDF extraction, TF-IDF, LDA topic modeling, and KeyBERT keyword extraction. Validated cluster quality via coherence scoring.',
-    decision: 'LDA over BERTopic — interpretability was the goal. LDA topic-word distributions are human-readable and directly useful for literature review.',
-    stack: ['Python', 'LDA', 'KeyBERT', 'TF-IDF', 'PyMuPDF', 'scikit-learn'],
-    metrics: ['100+ papers', 'Coherence validated'],
+    problem: '180 healthcare research papers with overlapping themes and no quick way to surface cross-paper trends without reading everything.',
+    solution: 'Solo pipeline: pdfminer extraction, TF-IDF, LDA topic modeling, and KeyBERT keywords over 100 Healthcare 4.0 papers plus 20 each in cardiology, oncology, orthopedics, and health records.',
+    decision: 'LDA over BERTopic — interpretability was the goal, and LDA topic-word distributions are directly readable for a literature review.',
+    stack: ['Python', 'pdfminer', 'LDA', 'KeyBERT', 'TF-IDF', 'scikit-learn'],
+    metrics: ['180 papers', '5 subdomains'],
     link: 'https://github.com/vaishk1804/Healthcare_Topic_Modelling',
+  },
+  {
+    title: 'Healthcare Management System',
+    tag: 'Full-Stack · Auth · Learning Prototype',
+    featured: false,
+    problem: 'Healthcare apps need different access for different users, and booking flows that respect those roles.',
+    solution: 'Team learning prototype in React, Django REST Framework, and PostgreSQL. My part: Google sign-in, roles and permissions, session and token auth, role-based access control, and appointment booking and viewing.',
+    decision: 'Google sign-in over email/password to reduce credential-handling risk.',
+    stack: ['React', 'Django', 'DRF', 'PostgreSQL', 'Google OAuth 2.0'],
+    metrics: ['Role-based access', 'Appointment booking'],
+    link: 'https://github.com/vaishk1804/Apollo-healthcare',
   },
 ]
 
 const TICKER_ITEMS = [
-  '⚡ Shipped to 300+ users at Saint Gobain — React · Django · AWS · PostgreSQL',
-  '◎ IEEE published — SAR Land-Cover Classification · IGARSS 2022',
-  '🛠 Building: SEC Filings Copilot — FastAPI · Next.js · Docker · RAG pipelines',
-  '📖 Exploring: async Python patterns · structured document retrieval',
+  '⚡ Now: full-stack on the Boomerroomers app — React Native · Expo · Node.js',
+  '🛠 Shipped to 300+ users at Saint-Gobain — React · Django · AWS',
+  '🤖 Building: PitWall — an F1 agent with tool use, guardrails, and evals',
+  '◎ IEEE IGARSS 2022 — SAR land-cover classification',
 ]
 
 function useScrollSpy() {
@@ -246,7 +247,7 @@ function Hero() {
         <div className="hero-copy">
           <div className="hero-eyebrow">
             <span className="pulse-dot" />
-            Open to new grad roles · July 2026 · Amherst, MA
+            Open to SWE + AI roles · Hartford, CT · Open to relocation
           </div>
           <h1 className="hero-h1">
             I build systems that<br />
@@ -254,17 +255,17 @@ function Hero() {
             and hold up.
           </h1>
           <p className="hero-identity">
-            Production software that replaces real operational pain — owned end-to-end from schema design through cloud deployment.
+            Software engineer with AI depth — production systems owned end-to-end, from schema design through cloud deployment.
           </p>
           <p className="hero-lead">
-            M.S. CS at UMass Amherst (GPA 4.0). Shipped to 300+ users across 5+ factory sites at 99.9% uptime. 1M+ daily data points processed. IEEE-published ML research.
+            I completed my M.S. in Computer Science at UMass Amherst (GPA 4.0, May 2026). I've shipped production software to 300+ users across 5 factory sites at 99.9% uptime, built an LLM agent and a RAG system, and published IEEE research.
           </p>
           <div className="hero-actions">
             <button className="btn-primary" onClick={() => go('Projects')}>View Projects</button>
             <a className="btn-ghost" href="/resume.pdf" target="_blank" rel="noreferrer">Download Resume ↓</a>
           </div>
           <div className="hero-focus">
-            {['Full-Stack SWE', 'Data Engineering', 'ML Engineering'].map(f => (
+            {['Software Engineering', 'AI / LLM Apps', 'Data Engineering', 'ML Engineering'].map(f => (
               <span key={f} className="focus-chip">{f}</span>
             ))}
           </div>
@@ -278,24 +279,29 @@ function Hero() {
         <div className="hero-cards">
           <div className="hcard hcard-photo">
             <img src="/profile.jpg" alt="Profile photo" className="hero-photo-lg" />
-            <div className="hero-photo-name">Vaishnavi Kashyap</div>
-            <div className="hero-photo-role">Full-Stack Engineer <span className="hero-role-dim">· ML depth</span></div>
+            <div>
+              <div className="hero-photo-name">Vaishnavi Kashyap</div>
+              <div className="hero-photo-role">Software Engineer <span className="hero-role-dim">· AI</span></div>
+            </div>
           </div>
           <div className="hcard hcard-main">
             <div className="hcard-eyebrow">Currently at</div>
-            <div className="hcard-title">UMass Amherst</div>
-            <div className="hcard-sub">M.S. Computer Science · GPA 4.0 · July 2026</div>
+            <div className="hcard-title">Boomerroomers</div>
+            <div className="hcard-sub">Office &amp; Technology Operations Intern · Remote</div>
+            <div className="hcard-rule" />
+            <div className="hcard-eyebrow">Education</div>
+            <div className="hcard-sub">M.S. Computer Science, UMass Amherst · GPA 4.0 · May 2026</div>
             <div className="hcard-rule" />
             <div className="hcard-eyebrow">Published at</div>
             <div className="hcard-pub">
               <span className="ieee-badge">IEEE</span>
-              <span>SAR Land-Cover Classification · IGARSS 2022</span>
+              <span>Efficient Use of Interferometric Coherence for Improvement in Classification of Urban and Tall Vegetation with SAR Data · IGARSS 2022</span>
             </div>
           </div>
           <div className="hcard hcard-stack">
             <div className="hcard-eyebrow">Core stack</div>
             <div className="hcard-chips">
-              {['React', 'FastAPI', 'Django', 'PostgreSQL', 'Docker', 'GCP', 'Keras', 'TypeScript'].map(s => (
+              {['Python', 'TypeScript', 'React', 'FastAPI', 'Django', 'Node.js', 'PostgreSQL', 'Docker', 'AWS', 'Anthropic SDK'].map(s => (
                 <span key={s} className="hchip">{s}</span>
               ))}
             </div>
@@ -337,29 +343,6 @@ function Impact() {
   )
 }
 
-
-function Domains() {
-  return (
-    <section id="domains" className="domains">
-      <div className="container">
-        <div className="section-head">
-          <span className="eyebrow">Areas of focus</span>
-          <h2>Domains I work in</h2>
-        </div>
-        <div className="domains-grid">
-          {DOMAINS.map(d => (
-            <div key={d.title} className="domain-card">
-              <div className="domain-icon">{d.icon}</div>
-              <h3 className="domain-title">{d.title}</h3>
-              <p className="domain-text">{d.text}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function ExperienceSection() {
   return (
     <section id="experience" className="exp">
@@ -392,22 +375,45 @@ function ExperienceSection() {
               <p>GPA 4.0. Coursework: Neural Networks, Information Retrieval, System Design, Software Engineering, Computer Networks &amp; Security, Cryptography, Computer Architecture.</p>
             </div>
           </div>
+          <div className="exp-row exp-row--edu">
+            <div className="exp-meta-col">
+              <div className="exp-role">B.Tech Computer Science &amp; Engineering</div>
+              <div className="exp-co">VIT Vellore</div>
+              <div className="exp-period">2019 – 2023</div>
+            </div>
+            <div className="exp-edu-body">
+              <p>GPA 3.86/4.0.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   )
 }
 
+function ProjectCard({ p, className, children }) {
+  return p.link
+    ? <a href={p.link} target="_blank" rel="noreferrer" className={className}>{children}</a>
+    : <div className={className}>{children}</div>
+}
+
+const ctaLabel = p =>
+  !p.link ? 'Repo going public soon'
+    : p.link.includes('github.com') ? 'View on GitHub ↗'
+    : 'Read the paper ↗'
+
 function ProjectsSection() {
   const [filter, setFilter] = useState('all')
   const catMap = {
-    'Medical Transcription Classifier': ['ml', 'nlp'],
-    'SAR Land-Cover Classification': ['ml'],
-    'AirWatch': ['fullstack'],
-    'SEC Filings Copilot': ['fullstack', 'ml'],
-    'SAV_535 CPU & Cache Simulator': ['systems'],
+    'LexRAG': ['ai', 'nlp'],
+    'PitWall F1 Agent': ['ai'],
+    'AirWatch': ['fullstack', 'data'],
+    'Stock Market ELT Pipeline': ['data'],
+    'Medical Transcription Classifier': ['ai', 'nlp'],
+    'SAR Land-Cover Classification': ['ai'],
+    'SAV_535 RISC CPU Simulator': ['systems'],
+    'Healthcare Topic Modeling': ['nlp', 'ai'],
     'Healthcare Management System': ['fullstack'],
-    'Healthcare Topic Modeling': ['nlp', 'ml'],
   }
   const visible = filter === 'all' ? PROJECTS : PROJECTS.filter(p => (catMap[p.title] || []).includes(filter))
   const featured = visible.filter(p => p.featured)
@@ -421,14 +427,14 @@ function ProjectsSection() {
           <h2>Projects</h2>
         </div>
         <div className="filter-bar">
-          {[['all', 'All'], ['ml', 'ML / AI'], ['nlp', 'NLP'], ['fullstack', 'Full-Stack'], ['systems', 'Systems']].map(([k, l]) => (
+          {[['all', 'All'], ['ai', 'AI / ML'], ['nlp', 'NLP'], ['fullstack', 'Full-Stack'], ['data', 'Data Eng'], ['systems', 'Systems']].map(([k, l]) => (
             <button key={k} className={`filter-btn${filter === k ? ' active' : ''}`} onClick={() => setFilter(k)}>{l}</button>
           ))}
         </div>
         {featured.length > 0 && (
           <div className="featured-grid">
             {featured.map(p => (
-              <a key={p.title} href={p.link} target="_blank" rel="noreferrer" className="proj-featured">
+              <ProjectCard key={p.title} p={p} className="proj-featured">
                 <div className="pf-tag">{p.tag}</div>
                 <h3 className="pf-title">{p.title}</h3>
                 {p.problem && <p className="pf-summary">{p.problem}</p>}
@@ -437,15 +443,15 @@ function ProjectsSection() {
                   <div className="pf-metrics">{p.metrics.map(m => <span key={m} className="pf-metric">{m}</span>)}</div>
                 )}
                 <div className="pf-stack">{p.stack.map(s => <span key={s} className="pf-chip">{s}</span>)}</div>
-                <div className="pf-cta">View on GitHub ↗</div>
-              </a>
+                <div className="pf-cta">{ctaLabel(p)}</div>
+              </ProjectCard>
             ))}
           </div>
         )}
         {rest.length > 0 && (
           <div className="proj-grid">
             {rest.map(p => (
-              <a key={p.title} href={p.link} target="_blank" rel="noreferrer" className="proj-card">
+              <ProjectCard key={p.title} p={p} className="proj-card">
                 <div className="pc-tag">{p.tag}</div>
                 <h3 className="pc-title">{p.title}</h3>
                 {p.problem && <p className="pc-problem">{p.problem}</p>}
@@ -456,7 +462,7 @@ function ProjectsSection() {
                   {p.stack.slice(0, 4).map(s => <span key={s} className="pc-chip">{s}</span>)}
                   {p.stack.length > 4 && <span className="pc-chip pc-more">+{p.stack.length - 4}</span>}
                 </div>
-              </a>
+              </ProjectCard>
             ))}
           </div>
         )}
@@ -479,7 +485,7 @@ function Contact() {
         <div className="contact-inner">
           <div className="contact-copy">
             <span className="eyebrow">Get in touch</span>
-            <h2>Available July 2026.</h2>
+            <h2>Available now.</h2>
             <p className="contact-body">
               If you're building something that needs to work at scale and be owned end-to-end — let's talk.
             </p>
@@ -498,7 +504,7 @@ function Contact() {
             </div>
           </div>
           <div className="contact-stats">
-            {[['July 2026', 'Available from'], ['U.S. only', 'Work authorization'], ['4.0 GPA', 'UMass MSCS']].map(([v, l]) => (
+            {[['Now', 'Available'], ['Anywhere in U.S.', 'Open to relocation'], ['4.0 GPA', 'UMass M.S. CS']].map(([v, l]) => (
               <div key={l} className="cstat">
                 <div className="cstat-v">{v}</div>
                 <div className="cstat-l">{l}</div>
