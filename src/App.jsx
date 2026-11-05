@@ -1,32 +1,29 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const NAV_LINKS = ['About', 'Experience', 'Projects', 'Impact', 'Contact']
 
 const METRICS = [
-  { value: '300+', label: 'Users on my carbon platform' },
-  { value: '99.9%', label: 'Uptime sustained' },
-  { value: '5', label: 'Factory sites served' },
-  { value: '~90%', label: 'Efficiency gain (mgmt-assessed)' },
-  { value: '<100ms', label: 'Query time, down from 3–4 s' },
-  { value: '70%', label: 'BigQuery query time cut' },
-  { value: '1M+', label: 'Records modeled · CloudSufi' },
-  { value: '230 RPS', label: 'AirWatch at 0% errors (was 63)' },
+  { value: '300+', label: 'People using a tool I pitched myself' },
+  { value: '99.9%', label: 'Uptime on that platform' },
+  { value: '<100ms', label: 'A 3–4 s query, after one index' },
+  { value: '230 RPS', label: 'AirWatch under load, 0% errors' },
   { value: '4.0', label: 'GPA · UMass M.S. CS' },
-  { value: '1', label: 'IEEE publication' },
 ]
 
 const SKILLS = [
   { area: 'Languages', items: ['Python', 'TypeScript', 'JavaScript', 'C++', 'SQL', 'Bash'] },
   { area: 'Frontend', items: ['React', 'React Native', 'Expo', 'Angular', 'Three.js', 'Tailwind CSS'] },
-  { area: 'Backend', items: ['FastAPI', 'Django', 'DRF', 'Node.js', 'SQLAlchemy', 'Alembic', 'Celery', 'REST APIs'] },
-  { area: 'Data & Cloud', items: ['PostgreSQL', 'BigQuery', 'Redis', 'Kafka', 'Airflow', 'dbt', 'Docker', 'AWS (EC2, S3, CloudWatch)', 'GCP Vertex AI', 'GitHub Actions'] },
-  { area: 'AI / ML', items: ['Anthropic SDK', 'Tool-using agents', 'RAG (BM25 + dense)', 'Embedding fine-tuning', 'ClinicalBERT', 'ALBERT', 'Keras', 'TensorFlow', 'ARIMA', 'Pandas', 'NumPy'] },
+  { area: 'Backend', items: ['FastAPI', 'Django', 'DRF', 'Node.js', 'SQLAlchemy', 'Alembic', 'Celery / Celery Beat', 'Gunicorn', 'REST APIs', 'OAuth 2.0'] },
+  { area: 'Data & Cloud', items: ['PostgreSQL', 'BigQuery', 'Redis', 'Kafka', 'Airflow', 'dbt', 'Docker', 'AWS (EC2, S3, CloudWatch)', 'GCP Vertex AI', 'AppSheet'] },
+  { area: 'AI / ML', items: ['Anthropic SDK', 'Tool-using agents', 'Eval harnesses', 'RAG (BM25 + dense, RRF)', 'ChromaDB', 'Embedding fine-tuning', 'ClinicalBERT', 'ALBERT', 'Keras', 'TensorFlow', 'scikit-learn', 'ARIMA', 'LDA', 'KeyBERT', 'Pandas', 'NumPy'] },
+  { area: 'Tools', items: ['Git', 'GitHub Actions', 'CMake', 'VS Code'] },
 ]
 
 const EXPERIENCE = [
   {
     role: 'Office & Technology Operations Intern',
     company: 'Boomerroomers',
+    badge: 'B', badgeTone: 'blue',
     period: 'Aug 2026 – Present',
     location: 'Remote',
     points: [
@@ -37,6 +34,7 @@ const EXPERIENCE = [
   {
     role: 'Software Engineer',
     company: 'Saint-Gobain – INDEC',
+    badge: 'SG', badgeTone: 'navy',
     period: 'Nov 2023 – Aug 2024',
     location: 'Mumbai, India',
     points: [
@@ -51,6 +49,7 @@ const EXPERIENCE = [
   {
     role: 'Data Science Intern',
     company: 'CloudSufi',
+    badge: 'CS', badgeTone: '',
     period: 'Jun 2022 – Aug 2022',
     location: 'Remote',
     points: [
@@ -71,9 +70,11 @@ const PROJECTS = [
     problem: 'Contracts bury the clauses that matter in long, formulaic text. Keyword search misses paraphrased clauses; embedding search alone misses exact legal terms.',
     solution: 'Retrieval system over 510 CUAD contracts combining BM25 and dense retrieval with Reciprocal Rank Fusion, plus a fine-tuned embedding model.',
     decision: 'Hybrid retrieval — BM25 and dense results fused with RRF — then fine-tuned the embedding model, lifting top-1 retrieval from 3.5% to 8.0%.',
-    stack: ['Python', 'BM25', 'Dense retrieval', 'RRF', 'Embedding fine-tuning'],
+    lessonLabel: 'The bug that taught me the most',
+    lesson: "After re-ingesting at a new chunk size, ChromaDB held 58,828 vectors while BM25 had 14,492. Chroma's upsert only overwrites matching IDs, so stale chunks stayed behind and polluted retrieval. Now every ingestion run resets the collection first.",
+    stack: ['Python', 'ChromaDB', 'BM25', 'Dense retrieval', 'RRF', 'Embedding fine-tuning'],
     metrics: ['510 CUAD contracts', 'Top-1 retrieval 3.5% → 8.0%'],
-    link: '', // TODO: LexRAG repo URL
+    link: 'https://github.com/vaishk1804/lexrag',
   },
   {
     title: 'PitWall F1 Agent',
@@ -82,9 +83,11 @@ const PROJECTS = [
     problem: 'LLM agents answering factual questions can state wrong numbers with full confidence — and without evals you cannot tell whether a fix helped.',
     solution: 'Formula 1 agent built on the Anthropic SDK with 8 tools and confidence guardrails, backed by an eval harness and test suite.',
     decision: 'Built the eval harness (10 cases across 9 categories) alongside the agent, so guardrail changes are tested rather than guessed. The confidence guardrails reduce hallucination risk.',
+    lessonLabel: "What I'd change",
+    lesson: "Tool results get cut to 50 rows before they reach the model, but they aren't sorted first, so the agent can lose the exact laps or pit stops it needs. Next step: sort or aggregate before trimming.",
     stack: ['Anthropic SDK', 'Tool use', 'Guardrails', 'Eval harness'],
     metrics: ['8 tools', '10-case eval harness', '66 tests'],
-    link: '', // TODO: push harness + tests, then add repo URL
+    link: 'https://github.com/vaishk1804/pitwall-ai',
   },
   {
     title: 'AirWatch',
@@ -93,7 +96,9 @@ const PROJECTS = [
     problem: 'Synchronous fetch pipelines break whenever the external API is slow — making real-time air quality dashboards fragile under load.',
     solution: 'Decoupled ingestion from the request cycle with Celery + Redis. FastAPI serves pre-ingested data from PostgreSQL to a React + TypeScript frontend. Containerized with Docker; GitHub Actions CI runs lint, typecheck, tests, and the Docker build.',
     decision: 'Celery over a background thread — thread-based ingestion dies silently on restart. Under 100 concurrent clients, throughput went from 63 RPS at 74% errors to 230 RPS at 0% errors.',
-    stack: ['FastAPI', 'React', 'TypeScript', 'PostgreSQL', 'SQLAlchemy', 'Alembic', 'Celery', 'Redis', 'Docker', 'GitHub Actions'],
+    lessonLabel: 'The tricky part',
+    lesson: "A 74% error rate under load looked like a server bug. It was the weather API rate-limiting me, with its 403s surfacing as 500s, plus synchronous calls blocking the request path. Moving the weather fetch into an hourly Celery Beat job got it to 230 RPS with zero errors.",
+    stack: ['FastAPI', 'React', 'TypeScript', 'PostgreSQL', 'SQLAlchemy', 'Alembic', 'Celery Beat', 'Redis', 'Docker', 'GitHub Actions'],
     metrics: ['230 RPS · 0% errors', 'p95 736 ms', '100 concurrent clients', '27 tests'],
     link: 'https://github.com/vaishk1804/airwatch',
   },
@@ -123,6 +128,7 @@ const PROJECTS = [
     title: 'SAR Land-Cover Classification',
     tag: 'Computer Vision · Remote Sensing · IEEE IGARSS 2022',
     featured: false,
+    compact: true,
     problem: 'Optical imagery is blocked by cloud cover. SAR penetrates it, but standard CNN pipelines ignored interferometric coherence — a signal that directly encodes surface structure.',
     solution: 'CNN for 6-class land-cover classification on Sentinel-1 SAR, adding interferometric coherence as an input channel alongside backscatter. Published as "Efficient Use of Interferometric Coherence for Improvement in Classification of Urban and Tall Vegetation with SAR Data."',
     decision: 'Added coherence as a separate input channel so the CNN learns cross-channel spatial relationships directly.',
@@ -145,6 +151,7 @@ const PROJECTS = [
     title: 'Healthcare Topic Modeling',
     tag: 'NLP · Document Processing',
     featured: false,
+    compact: true,
     problem: '180 healthcare research papers with overlapping themes and no quick way to surface cross-paper trends without reading everything.',
     solution: 'Solo pipeline: pdfminer extraction, TF-IDF, LDA topic modeling, and KeyBERT keywords over 100 Healthcare 4.0 papers plus 20 each in cardiology, oncology, orthopedics, and health records.',
     decision: 'LDA over BERTopic — interpretability was the goal, and LDA topic-word distributions are directly readable for a literature review.',
@@ -156,6 +163,7 @@ const PROJECTS = [
     title: 'Healthcare Management System',
     tag: 'Full-Stack · Auth · Learning Prototype',
     featured: false,
+    compact: true,
     problem: 'Healthcare apps need different access for different users, and booking flows that respect those roles.',
     solution: 'Team learning prototype in React, Django REST Framework, and PostgreSQL. My part: Google sign-in, roles and permissions, session and token auth, role-based access control, and appointment booking and viewing.',
     decision: 'Google sign-in over email/password to reduce credential-handling risk.',
@@ -163,13 +171,6 @@ const PROJECTS = [
     metrics: ['Role-based access', 'Appointment booking'],
     link: 'https://github.com/vaishk1804/Apollo-healthcare',
   },
-]
-
-const TICKER_ITEMS = [
-  '⚡ Now: full-stack on the Boomerroomers app — React Native · Expo · Node.js',
-  '🛠 Shipped to 300+ users at Saint-Gobain — React · Django · AWS',
-  '🤖 Building: PitWall — an F1 agent with tool use, guardrails, and evals',
-  '◎ IEEE IGARSS 2022 — SAR land-cover classification',
 ]
 
 function useScrollSpy() {
@@ -191,17 +192,6 @@ function useScrollSpy() {
 }
 
 const go = id => document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: 'smooth' })
-
-function Ticker() {
-  const items = [...TICKER_ITEMS, ...TICKER_ITEMS]
-  return (
-    <div className="ticker">
-      <div className="ticker-track">
-        {items.map((t, i) => <span key={i} className="ticker-item">{t}<span className="ticker-sep"> · </span></span>)}
-      </div>
-    </div>
-  )
-}
 
 function Nav() {
   const active = useScrollSpy()
@@ -238,77 +228,254 @@ function Nav() {
   )
 }
 
-function Hero() {
+function Hero({ onOpenTerminal }) {
   return (
     <section id="about" className="hero">
-      <div className="hero-grid-lines" />
-      <div className="hero-glow" />
-      <div className="container hero-layout">
-        <div className="hero-copy">
-          <div className="hero-eyebrow">
-            <span className="pulse-dot" />
-            Open to SWE + AI roles · Hartford, CT · Open to relocation
+      <div className="container">
+        <div className="bento">
+          <div className="cell cell-intro">
+            <div className="hero-eyebrow">
+              <span className="pulse-dot" />
+              Open to SWE + AI roles · Hartford, CT · Happy to relocate
+            </div>
+            <h1 className="hero-h1">
+              Hi, I'm Vaish.<span className="wave" aria-hidden="true">👋</span><br />
+              I build software<br />
+              <span className="hero-accent">people actually use.</span>
+            </h1>
+            <p className="hero-identity">
+              At Saint-Gobain I pitched a carbon tracker nobody had asked for, built it, and watched 300+ people start using it. That's still my favorite way to work: find a real problem, then own it end to end.
+            </p>
+            <p className="hero-lead">
+              Since then I've built forecasting pipelines at CloudSufi, published computer-vision research at IEEE IGARSS, and lately I've been building LLM agents and retrieval systems. I completed my M.S. in Computer Science at UMass Amherst (GPA 4.0, May 2026).
+            </p>
+            <div className="hero-actions">
+              <button className="btn-primary" onClick={() => go('Projects')}>View Projects</button>
+              <a className="btn-ghost" href="/resume.pdf" target="_blank" rel="noreferrer">Download Resume ↓</a>
+            </div>
+            <div className="hero-socials">
+              <a href="https://github.com/vaishk1804" target="_blank" rel="noreferrer">GitHub ↗</a>
+              <a href="https://www.linkedin.com/in/vaishnavikashyap2001" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+              <a href="mailto:vaishnavikashyap1804@gmail.com">Email ↗</a>
+            </div>
           </div>
-          <h1 className="hero-h1">
-            I build systems that<br />
-            <span className="hero-accent">ship, scale,</span><br />
-            and hold up.
-          </h1>
-          <p className="hero-identity">
-            Software engineer with AI depth — production systems owned end-to-end, from schema design through cloud deployment.
-          </p>
-          <p className="hero-lead">
-            I completed my M.S. in Computer Science at UMass Amherst (GPA 4.0, May 2026). I've shipped production software to 300+ users across 5 factory sites at 99.9% uptime, built an LLM agent and a RAG system, and published IEEE research.
-          </p>
-          <div className="hero-actions">
-            <button className="btn-primary" onClick={() => go('Projects')}>View Projects</button>
-            <a className="btn-ghost" href="/resume.pdf" target="_blank" rel="noreferrer">Download Resume ↓</a>
-          </div>
-          <div className="hero-focus">
-            {['Software Engineering', 'AI / LLM Apps', 'Data Engineering', 'ML Engineering'].map(f => (
-              <span key={f} className="focus-chip">{f}</span>
-            ))}
-          </div>
-          <div className="hero-socials">
-            <a href="https://github.com/vaishk1804" target="_blank" rel="noreferrer">GitHub ↗</a>
-            <a href="https://www.linkedin.com/in/vaishnavikashyap2001" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-            <a href="mailto:vaishnavikashyap1804@gmail.com">Email ↗</a>
-          </div>
-        </div>
 
-        <div className="hero-cards">
-          <div className="hcard hcard-photo">
-            <img src="/profile.jpg" alt="Profile photo" className="hero-photo-lg" />
-            <div>
-              <div className="hero-photo-name">Vaishnavi Kashyap</div>
-              <div className="hero-photo-role">Software Engineer <span className="hero-role-dim">· AI</span></div>
+          <div className="cell cell-photo">
+            <img src="/profile.jpg" alt="Vaishnavi Kashyap" />
+            <div className="photo-caption">
+              <div className="photo-name">Vaishnavi Kashyap</div>
+              <div className="photo-role">Software engineer · AI</div>
             </div>
           </div>
-          <div className="hcard hcard-main">
-            <div className="hcard-eyebrow">Currently at</div>
-            <div className="hcard-title">Boomerroomers</div>
-            <div className="hcard-sub">Office &amp; Technology Operations Intern · Remote</div>
-            <div className="hcard-rule" />
-            <div className="hcard-eyebrow">Education</div>
-            <div className="hcard-sub">M.S. Computer Science, UMass Amherst · GPA 4.0 · May 2026</div>
-            <div className="hcard-rule" />
-            <div className="hcard-eyebrow">Published at</div>
-            <div className="hcard-pub">
-              <span className="ieee-badge">IEEE</span>
-              <span>Efficient Use of Interferometric Coherence for Improvement in Classification of Urban and Tall Vegetation with SAR Data · IGARSS 2022</span>
-            </div>
+
+          <div className="cell cell-info">
+            <div className="cell-label">Currently</div>
+            <div className="cell-title">Boomerroomers</div>
+            <div className="cell-sub">Office &amp; Technology Operations Intern · Remote</div>
           </div>
-          <div className="hcard hcard-stack">
-            <div className="hcard-eyebrow">Core stack</div>
-            <div className="hcard-chips">
+
+          <div className="cell cell-info">
+            <div className="cell-label">Education</div>
+            <div className="cell-title">UMass Amherst</div>
+            <div className="cell-sub">M.S. Computer Science · GPA 4.0 · May 2026</div>
+          </div>
+
+          <a className="cell cell-info cell-link" href="https://www.researchgate.net/publication/363942838" target="_blank" rel="noreferrer">
+            <div className="cell-label">Published <span className="cell-arrow">↗</span></div>
+            <div className="cell-title"><span className="ieee-badge">IEEE</span> IGARSS 2022</div>
+            <div className="cell-sub">Using interferometric coherence to better classify urban areas and tall vegetation in SAR data.</div>
+          </a>
+
+          <div className="cell cell-info cell-offclock">
+            <div className="cell-label">Off the clock</div>
+            <div className="cell-title">Formula 1</div>
+            <div className="cell-sub">Mostly for the teams and the strategy calls. Verstappen and Vettel fan.</div>
+          </div>
+
+          <div className="cell cell-stack">
+            <div className="cell-label">Core stack</div>
+            <div className="chips">
               {['Python', 'TypeScript', 'React', 'FastAPI', 'Django', 'Node.js', 'PostgreSQL', 'Docker', 'AWS', 'Anthropic SDK'].map(s => (
-                <span key={s} className="hchip">{s}</span>
+                <span key={s} className="chip">{s}</span>
+              ))}
+            </div>
+            <div className="cell-label cell-label--spaced">Roles I'm looking for</div>
+            <div className="chips">
+              {['Software Engineering', 'AI / LLM Apps', 'Data Engineering', 'ML Engineering'].map(f => (
+                <span key={f} className="chip chip--outline">{f}</span>
               ))}
             </div>
           </div>
+
+          <button className="cell cell-term" onClick={onOpenTerminal}>
+            <div className="cell-label">For engineers</div>
+            <code className="term-hint">$ help<span className="term-caret" /></code>
+            <div className="cell-sub">
+              Press <kbd>Ctrl</kbd> + <kbd>`</kbd> or click here to explore this site from a terminal.
+            </div>
+          </button>
         </div>
       </div>
     </section>
+  )
+}
+
+const SECTIONS = ['about', 'experience', 'projects', 'impact', 'contact']
+
+const HELP = [
+  'help              list commands',
+  'about             who I am',
+  'experience        where I have worked',
+  'projects          list projects',
+  'open <n>          open project n',
+  'skills            tech stack',
+  'contact           how to reach me',
+  'resume            open my resume',
+  'goto <section>    about | experience | projects | impact | contact',
+  'f1                pit wall readout',
+  'clear             clear the screen',
+  'exit              close (or press Esc)',
+]
+
+const WELCOME = [{ type: 'out', text: 'vaish@portfolio — type "help" to see commands.' }]
+
+function Terminal({ open, onClose }) {
+  const [lines, setLines] = useState(WELCOME)
+  const [input, setInput] = useState('')
+  const [history, setHistory] = useState([])
+  const [hIdx, setHIdx] = useState(-1)
+  const inputRef = useRef(null)
+  const bodyRef = useRef(null)
+
+  useEffect(() => {
+    if (open) setTimeout(() => inputRef.current?.focus(), 60)
+  }, [open])
+
+  useEffect(() => {
+    if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight
+  }, [lines])
+
+  if (!open) return null
+
+  const run = raw => {
+    const [cmd = '', ...args] = raw.trim().split(/\s+/)
+    switch (cmd.toLowerCase()) {
+      case '':
+        return []
+      case 'help':
+        return HELP
+      case 'about':
+        return [
+          "Hi, I'm Vaish. I build software people actually use, often with an AI angle.",
+          'Completed my M.S. in Computer Science at UMass Amherst (GPA 4.0, May 2026).',
+          'Currently: Office & Technology Operations Intern at Boomerroomers.',
+          'Off the clock: F1 strategy, Verstappen and Vettel fan.',
+        ]
+      case 'experience':
+        return EXPERIENCE.map(j => `${j.period.padEnd(20)} ${j.role} — ${j.company}`)
+      case 'projects':
+        return [...PROJECTS.map((p, i) => `[${i + 1}] ${p.title}`), '', 'Type "open <n>" to view one.']
+      case 'open': {
+        const p = PROJECTS[parseInt(args[0], 10) - 1]
+        if (!p) return [`open: no project "${args[0] ?? ''}". Type "projects" for the list.`]
+        if (!p.link) return [`${p.title}: repo going public soon.`]
+        window.open(p.link, '_blank', 'noopener')
+        return [`Opening ${p.title}…`]
+      }
+      case 'skills':
+        return SKILLS.map(g => `${g.area.padEnd(14)} ${g.items.join(', ')}`)
+      case 'contact':
+        return [
+          'email     vaishnavikashyap1804@gmail.com',
+          'linkedin  linkedin.com/in/vaishnavikashyap2001',
+          'github    github.com/vaishk1804',
+        ]
+      case 'resume':
+        window.open('/resume.pdf', '_blank', 'noopener')
+        return ['Opening resume…']
+      case 'goto': {
+        const s = (args[0] || '').toLowerCase()
+        if (!SECTIONS.includes(s)) return [`goto: try one of ${SECTIONS.join(', ')}`]
+        onClose()
+        setTimeout(() => go(s), 150)
+        return []
+      }
+      case 'f1':
+        return [
+          '┌─ PIT WALL ───────────────────────────────┐',
+          '  Favourite drivers   Verstappen · Vettel',
+          '  Best part           team strategy calls',
+          '  Current stint       building LLM agents',
+          '  Side project        PitWall, an F1 agent',
+          '└──────────────────────────────────────────┘',
+          '  📻 "Box, box." Try: open 2',
+        ]
+      case 'sudo':
+        return ['Permission denied. Nice try.']
+      case 'clear':
+        return null
+      case 'exit':
+        onClose()
+        return []
+      default:
+        return [`command not found: ${cmd}. Type "help".`]
+    }
+  }
+
+  const submit = e => {
+    e.preventDefault()
+    const out = run(input)
+    if (out === null) setLines([])
+    else setLines(l => [...l, { type: 'in', text: input }, ...out.map(text => ({ type: 'out', text }))])
+    if (input.trim()) setHistory(h => [input, ...h])
+    setHIdx(-1)
+    setInput('')
+  }
+
+  const onKey = e => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      const i = Math.min(hIdx + 1, history.length - 1)
+      if (i >= 0) { setHIdx(i); setInput(history[i]) }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      const i = hIdx - 1
+      setHIdx(i)
+      setInput(i >= 0 ? history[i] : '')
+    }
+  }
+
+  return (
+    <div className="term-backdrop" onClick={onClose}>
+      <div className="term" role="dialog" aria-label="Site terminal" onClick={e => e.stopPropagation()}>
+        <div className="term-bar">
+          <span className="term-dots"><i /><i /><i /></span>
+          <span className="term-title">vaish@portfolio: ~</span>
+          <button className="term-close" onClick={onClose} aria-label="Close terminal">×</button>
+        </div>
+        <div className="term-body" ref={bodyRef} onClick={() => inputRef.current?.focus()}>
+          {lines.map((l, i) => (
+            <div key={i} className={`term-line term-line--${l.type}`}>
+              {l.type === 'in' && <span className="term-prompt">$ </span>}
+              {l.text}
+            </div>
+          ))}
+          <form className="term-input-row" onSubmit={submit}>
+            <span className="term-prompt">$</span>
+            <input
+              ref={inputRef}
+              className="term-input"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={onKey}
+              spellCheck={false}
+              autoComplete="off"
+              aria-label="Terminal input"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -317,8 +484,8 @@ function Impact() {
     <section id="impact" className="impact">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow">By the numbers</span>
-          <h2>Production impact, not just projects</h2>
+          <span className="eyebrow"><span className="eyebrow-num">03</span>By the numbers</span>
+          <h2>A few numbers I'm proud of</h2>
         </div>
         <div className="metrics">
           {METRICS.map(m => (
@@ -348,13 +515,14 @@ function ExperienceSection() {
     <section id="experience" className="exp">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow">Where I've worked</span>
-          <h2>Experience</h2>
+          <span className="eyebrow"><span className="eyebrow-num">01</span>Experience</span>
+          <h2>Where I've worked</h2>
         </div>
         <div className="exp-list">
           {EXPERIENCE.map((job, i) => (
             <div key={i} className="exp-row">
               <div className="exp-meta-col">
+                <div className={`exp-badge${job.badgeTone ? ` exp-badge--${job.badgeTone}` : ''}`} aria-hidden="true">{job.badge}</div>
                 <div className="exp-role">{job.role}</div>
                 <div className="exp-co">{job.company}</div>
                 <div className="exp-period">{job.period}</div>
@@ -365,26 +533,31 @@ function ExperienceSection() {
               </ul>
             </div>
           ))}
-          <div className="exp-row exp-row--edu">
-            <div className="exp-meta-col">
-              <div className="exp-role">M.S. Computer Science</div>
-              <div className="exp-co">UMass Amherst</div>
-              <div className="exp-period">Sep 2024 – May 2026</div>
-            </div>
-            <div className="exp-edu-body">
-              <p>GPA 4.0. Coursework: Neural Networks, Information Retrieval, System Design, Software Engineering, Computer Networks &amp; Security, Cryptography, Computer Architecture.</p>
-            </div>
-          </div>
-          <div className="exp-row exp-row--edu">
-            <div className="exp-meta-col">
-              <div className="exp-role">B.Tech Computer Science &amp; Engineering</div>
-              <div className="exp-co">VIT Vellore</div>
-              <div className="exp-period">2019 – 2023</div>
-            </div>
-            <div className="exp-edu-body">
-              <p>GPA 3.86/4.0.</p>
+        </div>
+        <div className="edu-head">
+          <span className="eyebrow">Education</span>
+        </div>
+        <div className="edu-grid">
+          <div className="edu-card">
+            <div className="exp-badge exp-badge--navy" aria-hidden="true">UM</div>
+            <div className="edu-body">
+              <div className="edu-degree">M.S. Computer Science</div>
+              <div className="edu-school">UMass Amherst · Sep 2024 – May 2026 <span className="edu-gpa">GPA 4.0</span></div>
             </div>
           </div>
+          <div className="edu-card">
+            <div className="exp-badge" aria-hidden="true">VIT</div>
+            <div className="edu-body">
+              <div className="edu-degree">B.Tech Computer Science &amp; Engineering</div>
+              <div className="edu-school">VIT Vellore · 2019 – 2023 <span className="edu-gpa">GPA 3.86</span></div>
+            </div>
+          </div>
+        </div>
+        <div className="edu-coursework">
+          <span className="edu-cw-label">M.S. coursework</span>
+          {['Neural Networks', 'Information Retrieval', 'System Design', 'Software Engineering', 'Networks & Security', 'Cryptography', 'Computer Architecture'].map(c => (
+            <span key={c} className="edu-course">{c}</span>
+          ))}
         </div>
       </div>
     </section>
@@ -417,14 +590,15 @@ function ProjectsSection() {
   }
   const visible = filter === 'all' ? PROJECTS : PROJECTS.filter(p => (catMap[p.title] || []).includes(filter))
   const featured = visible.filter(p => p.featured)
-  const rest = visible.filter(p => !p.featured)
+  const rest = visible.filter(p => !p.featured && !p.compact)
+  const more = visible.filter(p => p.compact)
 
   return (
     <section id="projects" className="projects">
       <div className="container">
         <div className="section-head">
-          <span className="eyebrow">Selected work</span>
-          <h2>Projects</h2>
+          <span className="eyebrow"><span className="eyebrow-num">02</span>Selected work</span>
+          <h2>Things I've built</h2>
         </div>
         <div className="filter-bar">
           {[['all', 'All'], ['ai', 'AI / ML'], ['nlp', 'NLP'], ['fullstack', 'Full-Stack'], ['data', 'Data Eng'], ['systems', 'Systems']].map(([k, l]) => (
@@ -438,7 +612,12 @@ function ProjectsSection() {
                 <div className="pf-tag">{p.tag}</div>
                 <h3 className="pf-title">{p.title}</h3>
                 {p.problem && <p className="pf-summary">{p.problem}</p>}
-                {p.decision && <div className="pf-decision-block"><span className="pf-decision-label">Why this approach —</span> {p.decision}</div>}
+                {(p.lesson || p.decision) && (
+                  <div className="pf-decision-block">
+                    <span className="pf-decision-label">{p.lesson ? p.lessonLabel : 'Why this approach'}</span>
+                    {p.lesson || p.decision}
+                  </div>
+                )}
                 {p.metrics.length > 0 && (
                   <div className="pf-metrics">{p.metrics.map(m => <span key={m} className="pf-metric">{m}</span>)}</div>
                 )}
@@ -466,6 +645,18 @@ function ProjectsSection() {
             ))}
           </div>
         )}
+        {more.length > 0 && (
+          <div className="also-built">
+            <span className="also-label">Also built</span>
+            {more.map(p => (
+              <a key={p.title} className="also-item" href={p.link} target="_blank" rel="noreferrer">
+                <span className="also-title">{p.title}</span>
+                <span className="also-tag">{p.tag.split(' · ')[0]}</span>
+                <span className="also-arrow">↗</span>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
@@ -475,22 +666,25 @@ function Contact() {
   const EMAIL = 'vaishnavikashyap1804@gmail.com'
   const [copied, setCopied] = useState(false)
   const copy = async () => {
-    await navigator.clipboard.writeText(EMAIL).catch(() => {})
+    await navigator.clipboard?.writeText(EMAIL).catch(() => {})
     setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    setTimeout(() => setCopied(false), 2400)
   }
   return (
     <section id="contact" className="contact">
+      <div className={`toast${copied ? ' toast--show' : ''}`} role="status" aria-live="polite">
+        <span className="toast-dot" />Email copied. Talk soon! 👋
+      </div>
       <div className="container">
         <div className="contact-inner">
           <div className="contact-copy">
-            <span className="eyebrow">Get in touch</span>
+            <span className="eyebrow"><span className="eyebrow-num">04</span>Get in touch</span>
             <h2>Available now.</h2>
             <p className="contact-body">
-              If you're building something that needs to work at scale and be owned end-to-end — let's talk.
+              I'm looking for a team where I can build real things for real users, especially where AI meets a real product. If that sounds like you, I'd love to hear from you.
             </p>
             <p className="contact-auth">
-              F1 OPT / STEM OPT eligible · Will require H-1B sponsorship for long-term employment
+              F1 OPT / STEM OPT eligible
             </p>
             <div className="email-row">
               <span className="email-addr">{EMAIL}</span>
@@ -501,6 +695,10 @@ function Contact() {
               <a className="cl" href="https://www.linkedin.com/in/vaishnavikashyap2001" target="_blank" rel="noreferrer">LinkedIn ↗</a>
               <a className="cl" href="https://github.com/vaishk1804" target="_blank" rel="noreferrer">GitHub ↗</a>
               <a className="cl" href="/resume.pdf" target="_blank" rel="noreferrer">Resume ↗</a>
+            </div>
+            <div className="signoff">
+              <span className="signoff-note">Thanks for scrolling all the way down.</span>
+              <span className="signature">Vaish</span>
             </div>
           </div>
           <div className="contact-stats">
@@ -530,12 +728,42 @@ function ScrollTop() {
 }
 
 export default function App() {
+  const [termOpen, setTermOpen] = useState(false)
+  useEffect(() => {
+    const h = e => {
+      if (e.ctrlKey && (e.code === 'Backquote' || e.key === '`' || e.key === '~')) {
+        e.preventDefault()
+        setTermOpen(o => !o)
+      } else if (e.key === 'Escape') {
+        setTermOpen(false)
+      }
+    }
+    window.addEventListener('keydown', h)
+    return () => window.removeEventListener('keydown', h)
+  }, [])
+
+  // Gentle fade-up as sections scroll into view
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const els = document.querySelectorAll('.cell, .exp-row, .proj-featured, .proj-card, .metric, .skills-table, .contact-inner')
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target) }
+      })
+    }, { threshold: 0.12 })
+    els.forEach((el, i) => {
+      el.classList.add('reveal')
+      el.style.transitionDelay = `${(i % 4) * 70}ms`
+      io.observe(el)
+    })
+    return () => io.disconnect()
+  }, [])
+
   return (
     <>
-      <Ticker />
       <Nav />
       <main>
-        <Hero />
+        <Hero onOpenTerminal={() => setTermOpen(true)} />
         <ExperienceSection />
         <ProjectsSection />
         <Impact />
@@ -544,6 +772,7 @@ export default function App() {
       <footer className="footer">
         <div className="container footer-inner">
           <span>© {new Date().getFullYear()} Vaishnavi Kashyap</span>
+          <span className="footer-hint">Psst, try <kbd>Ctrl</kbd> + <kbd>`</kbd></span>
           <div className="footer-links">
             <a href="https://github.com/vaishk1804" target="_blank" rel="noreferrer">GitHub</a>
             <a href="https://www.linkedin.com/in/vaishnavikashyap2001" target="_blank" rel="noreferrer">LinkedIn</a>
@@ -552,6 +781,7 @@ export default function App() {
         </div>
       </footer>
       <ScrollTop />
+      <Terminal open={termOpen} onClose={() => setTermOpen(false)} />
     </>
   )
 }
